@@ -28,7 +28,18 @@ python3.13 -m venv .venv
 PYTHONPATH=src .venv/bin/python -m pytest tests -q
 ```
 
-Only relevant regression tests are included. The original workspace's 144-test suite is not claimed to be reproduced in full by this smaller repository.
+Only relevant regression tests are included. The original workspace's 144-test suite is not claimed to be reproduced in full by this smaller repository. On macOS, importing XGBoost needs Homebrew's OpenMP runtime (`brew install libomp`); the final strategy itself does not fit XGBoost.
+
+## Video
+
+`video/slides.html` is the 28-slide presentation deck (open in a browser; arrow keys to move, `n` toggles speaker notes). Every number on the slides is taken from `reports/final/tables/` and the figures are exported from `reports/final/figures/`. `video/build_video.py` renders the deck into an MP4 with synthesized narration on macOS (headless Chrome + `say` + ffmpeg):
+
+```bash
+cd video && python3 build_video.py --dry-run   # word counts and estimated length
+cd video && python3 build_video.py             # writes video/Group_34_Video.mp4
+```
+
+The narration text is in each slide's `<aside class="notes">`; `docs/VIDEO_SCRIPT.md` has the same content as a speaker script for recording a human voice-over.
 
 ## Rebuild report figures without original data
 

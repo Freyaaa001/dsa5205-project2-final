@@ -314,7 +314,7 @@ From the repository root, the recorded-data replay and independent check are:
 PYTHONPATH=src python -m usq.project2.final\_study\\
 PYTHONPATH=src python scripts/verify\_final\_study.py
 \end{quote}
-The accompanying final-study guide gives environment installation, a standalone nominated-strategy run, source-snapshot construction, and report compilation commands. The full research archive retains the original training and screening entries. Restricted input data are not embedded in the report or assumed publicly redistributable.
+\textbf{Software and seeds.} All results were produced with Python 3.13 and the versions pinned in \path{requirements.txt}: numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, scikit-learn 1.9.1, and xgboost 3.1.3. Every stochastic component uses seed 5205: XGBoost subsampling, the SHA256 tie-breaking order in portfolio selection, and the block-bootstrap resampling. Ridge and Lasso are deterministic given the training rows. The accompanying final-study guide gives environment installation, a standalone nominated-strategy run, source-snapshot construction, and report compilation commands. The full research archive retains the original training and screening entries. Restricted input data are not embedded in the report or assumed publicly redistributable.
 
 \textbf{Team roster and contribution fields.} Wan Gehong; Wang Tianyi; Wu Jiarui; Yan Tianao. Student IDs: \rule{0.65\textwidth}{0.3pt}. Individual contributions: \rule{0.55\textwidth}{0.3pt}. These fields are left blank rather than assigning unverified contributions.
 \end{document}

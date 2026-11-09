@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Team 34 — DSA5205 Project 2 Video Deck</title>
+<style>
+:root{--paper:#F5F3EE;--ink:#141B2D;--navy:#0F2748;--navy2:#1B3B66;--teal:#1C7C8C;--teal2:#E6F2F4;--amber:#D9822B;--amber2:#FBF1E6;--muted:#6B7280;--line:#E4E0D6;--card:#FFFFFF;--mono:"SF Mono",Menlo,Monaco,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:#101620;font-family:"Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{display:none;width:1920px;height:1080px;background:var(--paper);position:relative;padding:84px 120px 120px 168px;flex-direction:column;overflow:hidden}
+.slide.active{display:flex}
+body.present .slide.active{position:absolute;top:0;left:0;transform-origin:top left}
+.rail{position:absolute;left:0;top:0;bottom:0;width:84px;background:var(--navy);display:flex;align-items:flex-start;justify-content:center;padding-top:72px}
+.rail b{color:#fff;opacity:.9;font-size:30px;font-weight:600;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.22em;text-transform:uppercase}
+.over{font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-weight:600;margin:0 0 12px}
+h1{font-size:60px;font-weight:700;color:var(--navy);letter-spacing:-.012em;margin:0 0 34px;line-height:1.08}
+h2{font-size:30px;color:var(--navy);margin:0 0 16px;font-weight:600}
+p,li{font-size:31px;line-height:1.42;margin:0 0 12px}
+ul{margin:0;padding-left:0;list-style:none}
+li{position:relative;padding-left:38px;margin-bottom:14px}
+li::before{content:"";position:absolute;left:4px;top:18px;width:14px;height:14px;border-radius:50%;background:var(--teal)}
+b{font-weight:700;color:var(--navy)}
+.body{flex:1;display:flex;flex-direction:column;min-height:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px;flex:1;align-items:center;min-height:0}
+.two.wide{grid-template-columns:1.2fr 1fr}
+.two.narrow{grid-template-columns:1fr 1.2fr}
+.card{background:var(--card);border-radius:20px;box-shadow:0 12px 36px rgba(15,39,72,.09);padding:30px 36px}
+.card.fig{padding:20px;display:flex;align-items:center;justify-content:center}
+.card.fig img{width:100%;max-height:780px;object-fit:contain}
+.card.fig.tall img{max-height:650px}
+.stats{display:flex;gap:26px;margin-bottom:30px}
+.stat{flex:1;background:var(--card);border-radius:20px;box-shadow:0 12px 36px rgba(15,39,72,.09);padding:26px 30px 22px}
+.stat b{display:block;font-size:72px;line-height:1;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-bottom:10px}
+.stat.accent b{color:var(--teal)}.stat.warn b{color:var(--amber)}
+.stat span{display:block;font-size:21px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.stat small{display:block;font-size:22px;color:var(--muted);margin-top:8px}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:28px;font-variant-numeric:tabular-nums}
+th,td{padding:14px 20px;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+th{font-size:20px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:700;border-bottom:3px solid var(--teal)}
+tr:last-child td{border-bottom:none}
+tr.hl td{background:var(--teal2);font-weight:700;color:var(--navy)}
+tr.hl td:first-child{border-left:8px solid var(--teal);border-radius:10px 0 0 10px}
+tr.hl td:last-child{border-radius:0 10px 10px 0}
+tr.dim td{color:var(--muted)}
+.callout{border-left:8px solid var(--amber);background:var(--amber2);padding:20px 30px;border-radius:0 16px 16px 0;font-size:30px;margin-top:26px;color:var(--ink)}
+.callout.teal{border-color:var(--teal);background:var(--teal2)}
+.eq{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-size:50px;text-align:center;color:var(--navy);background:var(--card);border-radius:20px;box-shadow:0 12px 36px rgba(15,39,72,.09);padding:30px 40px;margin:0 0 30px}
+.eq sub,.eq sup{font-size:58%}
+.eq.small{font-size:40px;padding:22px 30px}
+.flow{display:flex;align-items:stretch;gap:22px;margin:10px 0 30px}
+.flow .box{flex:1;background:var(--card);border-radius:18px;box-shadow:0 12px 36px rgba(15,39,72,.09);padding:26px 26px 24px;border-top:8px solid var(--teal);font-size:27px;line-height:1.35}
+.flow .box em{display:block;font-style:normal;font-size:20px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px}
+.flow .box strong{display:block;font-size:34px;color:var(--navy);margin-bottom:8px}
+.flow .arrow{align-self:center;font-size:48px;color:var(--amber);font-weight:300}
+.timeline{display:flex;margin:0 0 34px;border-radius:18px;overflow:hidden;box-shadow:0 12px 36px rgba(15,39,72,.09)}
+.timeline div{padding:24px 14px;color:#fff;flex:1;text-align:center;font-size:25px;line-height:1.3}
+.timeline b{display:block;font-size:34px;color:#fff;margin-bottom:6px}
+.timeline .d1{background:#8A93A3}.timeline .d2{background:#4F6D92}.timeline .d3{background:var(--amber)}.timeline .d4{background:var(--teal);flex:1.5}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;flex:1;align-items:stretch}
+.cols3 .card li{font-size:27px;margin-bottom:12px}
+.cols3 .card h2{display:flex;align-items:center;gap:14px}
+.cols3 .card h2::before{content:"";width:16px;height:16px;border-radius:4px;background:var(--teal)}
+.cols3 .card.warn h2::before{background:var(--amber)}.cols3 .card.good h2::before{background:#2E9B5F}
+.term{background:#0E1726;border-radius:18px;box-shadow:0 12px 36px rgba(15,39,72,.18);overflow:hidden}
+.term .bar{height:44px;background:#18233A;display:flex;align-items:center;gap:10px;padding:0 20px}
+.term .bar i{width:14px;height:14px;border-radius:50%;background:#FF5F57}.term .bar i:nth-child(2){background:#FEBC2E}.term .bar i:nth-child(3){background:#28C840}
+.term .bar span{margin-left:14px;color:#8A96AD;font:19px var(--mono)}
+pre{margin:0;padding:26px 32px;color:#DCE4EE;font:24px/1.45 var(--mono);white-space:pre-wrap}
+pre .c{color:#7EE787}pre .k{color:#79C0FF}pre .ok{color:#3FB950}pre .hl{color:#FFD166;font-weight:700}
+.foot{position:absolute;bottom:38px;left:168px;right:120px;display:flex;justify-content:space-between;font-size:20px;color:var(--muted);letter-spacing:.04em}
+.foot b{color:var(--muted);font-weight:600}
+.progress{position:absolute;left:84px;right:0;bottom:0;height:8px;background:var(--line)}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));width:calc(var(--p)*100%)}
+.small{font-size:24px;color:var(--muted)}
+/* hero slides */
+.hero{padding:0;background:radial-gradient(1200px 700px at 20% 10%,#1E4A7E 0%,#0F2748 45%,#0A1A33 100%);color:#fff;justify-content:center;align-items:flex-start}
+.hero .inner{padding:0 170px;max-width:1700px}
+.hero .over{color:#F0B37E;margin-bottom:28px}
+.hero h1{color:#fff;font-size:78px;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;letter-spacing:0;line-height:1.1;margin-bottom:22px}
+.hero p{color:#C9D6E8;font-size:32px}
+.hero .names{display:flex;gap:16px;margin:34px 0 26px}
+.hero .names span{border:1.5px solid rgba(255,255,255,.35);border-radius:999px;padding:10px 24px;font-size:26px;color:#fff}
+.hero .line{width:140px;height:6px;background:var(--amber);border-radius:3px;margin:0 0 34px}
+.hero .meta{color:#8FA3BF;font-size:22px;font-family:var(--mono)}
+.hero .rail,.hero .progress{display:none}
+.notes{display:none}
+#notespanel{display:none;position:fixed;right:0;bottom:0;width:620px;max-height:50vh;overflow:auto;background:#111;color:#eee;font:18px/1.5 Menlo,monospace;padding:16px;z-index:9}
+body.shownotes #notespanel{display:block}
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide hero"><div class="inner">
+<p class="over">DSA5205 · Project 2 · Team 34</p>
+<h1>Fundamental Signal Reconstruction and Portfolio Implementation in US Equities</h1>
+<div class="line"></div>
+<p>A comparative study of simple scores and price–fundamental models, 2015–2025</p>
+<div class="names"><span>Wan Gehong</span><span>Wang Tianyi</span><span>Wu Jiarui</span><span>Yan Tianao</span></div>
+<p class="meta">Group_34_Report.pdf · github.com/UtAstN/dsa5205-project2-final</p>
+</div><aside class="notes">Hello. We are Team 34. Our project is Fundamental Signal Reconstruction and Portfolio Implementation in US Equities. In the next twenty minutes we walk through the complete pipeline: the data and the timing rules, the signals, how we validated and controlled overfitting, how a score becomes a position, a run of the code from data to net returns, and the out-of-sample results after costs. We end with what worked, what did not, and what we learned. Every number we quote is generated by the code in the repository and appears in the report.</aside></section>
+
+<!-- 2 -->
+<section class="slide"><div class="rail"><b>Roadmap</b></div>
+<p class="over">Overview</p><h1>Eight steps, in the order of the project instructions</h1>
+<div class="body">
+<div class="flow">
+<div class="box"><em>01</em><strong>Assets &amp; timing</strong>universe, decision vs. execution, SPY benchmark, costs</div><div class="arrow">→</div>
+<div class="box"><em>02</em><strong>Labels &amp; features</strong>10-interval target, six fundamentals, three price signals, leakage rules</div><div class="arrow">→</div>
+<div class="box"><em>03</em><strong>Split &amp; models</strong>2015–2022 development, pre-declared grids, one selection rule</div><div class="arrow">→</div>
+<div class="box"><em>04</em><strong>Score → position</strong>buffer, √cap weights, cost ledger</div>
+</div>
+<div class="flow">
+<div class="box"><em>05</em><strong>End-to-end run</strong>data build → signals → portfolio → net returns</div><div class="arrow">→</div>
+<div class="box"><em>06</em><strong>Out-of-sample</strong>2023–2025 with costs, benchmarks, stress, uncertainty</div><div class="arrow">→</div>
+<div class="box"><em>07</em><strong>Interpretation</strong>what worked, what did not, limitations</div><div class="arrow">→</div>
+<div class="box"><em>08</em><strong>Reproducibility</strong>README, seeds, pinned packages</div>
+</div>
+<div class="callout teal">We grade ourselves on process: clean timing, no leakage, fair benchmarks, costs, and honest interpretation.</div>
+</div>
+<div class="foot"><span>Project instructions §4.1–4.9</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.07"></i></div>
+<aside class="notes">Here is the roadmap. We follow the order of the project instructions. First the market, the trading frequency and the investable benchmark. Second the label and the features, and the rules that keep future information out. Third the time split, the models, the validation grid and the one selection rule. Fourth the rule that turns a score into a position and the cost ledger. Then we run the code end to end, present the out-of-sample results with costs, and close with interpretation and reproducibility.</aside></section>
+
+<!-- 3 -->
+<section class="slide"><div class="rail"><b>01 · Assets</b></div>
+<p class="over">01 · Markets and assets</p><h1>A supplied US equity panel, about two thousand names a day</h1>
+<div class="body">
+<div class="stats">
+<div class="stat accent"><b>2,086</b><span>median eligible names / day</span><small>range 1,833 – 2,292 over 2015–2025</small></div>
+<div class="stat"><b>3,018</b><span>sessions, 2014–2025</span><small>2014 only feeds look-back features</small></div>
+<div class="stat"><b>4,366</b><span>identifiers in the union</span><small>not the daily investable universe</small></div>
+</div>
+<div class="two wide">
+<div class="card fig"><img src="assets/universe.png" alt="daily universe membership"></div>
+<ul>
+<li>CRSP-style prices, Compustat-style statements, NYSE calendar, USD.</li>
+<li>Investable benchmark: <b>SPY</b> buy-and-hold, adjusted total return.</li>
+<li>Membership lineage of the extract is incomplete → every result is <b>conditional on the supplied pool</b>.</li>
+</ul>
+</div></div>
+<div class="foot"><span>Report §2.1 · Figure 1</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.11"></i></div>
+<aside class="notes">Our assets are US common stocks from a supplied research panel, built from CRSP-style prices and Compustat-style financial statements, aligned to the New York Stock Exchange calendar, in US dollars. The panel runs from 2014 to 2025, but 2014 only feeds backward-looking features. On any given day about two thousand names are eligible; the median is two thousand and eighty-six, even though the union of identifiers across the whole period is over four thousand. The figure shows daily membership. We say up front that the historical membership rules of this extract are not fully documented, so every result in this study is conditional on the supplied pool.</aside></section>
+
+<!-- 4 -->
+<section class="slide"><div class="rail"><b>01 · Timing</b></div>
+<p class="over">01 · Decision time, execution, costs</p><h1>Signal at the close of T, trade at the close of T+1</h1>
+<div class="body">
+<div class="flow">
+<div class="box"><em>Close of T</em><strong>Decide</strong>signal computed only from information available by this close</div><div class="arrow">→</div>
+<div class="box"><em>Close of T+1</em><strong>Execute</strong>orders filled at the next close, 10 bps per dollar traded, both sides</div><div class="arrow">→</div>
+<div class="box"><em>T+2 onward</em><strong>Earn</strong>first close-to-close return of the new holding</div>
+</div>
+<div class="two">
+<ul>
+<li><b>Frequency:</b> daily data; the final strategy rebalances every <b>10 sessions</b>.</li>
+<li><b>Benchmarks:</b> SPY, plus equal / √cap / cap-weighted portfolios of the <i>same eligible pool</i> on the same schedule and costs.</li>
+<li><b>Stress:</b> 20 and 30 bps; 5- and 20-session information delays.</li>
+</ul>
+<div class="callout">A closing price is never used to trade at that same close. Same-universe benchmarks separate the effect of <b>allocation</b> from the effect of the <b>signal</b>.</div>
+</div></div>
+<div class="foot"><span>Report §2.3 · §5</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.14"></i></div>
+<aside class="notes">Timing is the first thing we fixed. A signal is computed from information available at the close of session T. We execute at the close of T plus one, and the new holding earns its first close-to-close return on T plus two. So a closing price is never used to trade at that same close. The data are daily, and the final strategy rebalances every ten sessions. The investable benchmark is SPY, buy and hold, using the adjusted total-return close over the same window. We also build three allocation benchmarks from the same eligible pool: equal weight, square-root-of-cap weight, and cap weight, rebalanced on the same schedule and charged the same costs. These separate the effect of allocation from the effect of our signal. Transaction cost is ten basis points per dollar traded, charged on both buys and sells, with twenty and thirty basis points as stress cases.</aside></section>
+
+<!-- 5 -->
+<section class="slide"><div class="rail"><b>02 · Label</b></div>
+<p class="over">02 · The label</p><h1>Ten close-to-close intervals, starting where we execute</h1>
+<div class="body">
+<div class="eq">y<sub>i,T</sub> = P*<sub>i,T+11</sub> / P*<sub>i,T+1</sub> − 1</div>
+<div class="two">
+<ul>
+<li><b>H = 10 sessions</b>, from our execution close T+1 to T+11; offsets count exchange sessions, not calendar days.</li>
+<li>Invalid if an endpoint price is missing or the adjustment segment is discontinuous.</li>
+<li>Last 11 signal dates are censored: their labels have not matured inside the data.</li>
+</ul>
+<div class="callout teal">Labels are for research and screening only. Portfolio P&amp;L comes from <b>actual held weights × daily marks</b>, never from overlapping ten-day labels.</div>
+</div></div>
+<div class="foot"><span>Report §2.3 · Eq. (1)</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.18"></i></div>
+<aside class="notes">The supervised label is the return from the close of T plus one to the close of T plus eleven, measured in exchange sessions. That is ten close-to-close intervals, and it starts exactly where we execute, so the label horizon and the trading horizon are aligned. A label is invalid if an endpoint price is missing or the adjustment history is broken. The last eleven signal dates in the sample are censored because their labels have not matured. Labels are only used for research and screening. Portfolio profit and loss is computed from the weights we actually hold and the daily marks, never by treating overlapping ten-day labels as if they were daily returns.</aside></section>
+
+<!-- 6 -->
+<section class="slide"><div class="rail"><b>02 · Features</b></div>
+<p class="over">02 · Six fundamental signals</p><h1>Four residuals, a cash-flow yield, an earnings surprise</h1>
+<div class="body">
+<div class="card" style="padding:14px 36px">
+<table>
+<tr><th>Signal</th><th style="text-align:left">Construction</th><th>Fixed sign</th></tr>
+<tr><td><b>F1</b></td><td style="text-align:left">TTM net-income residual relative to market cap</td><td>+1</td></tr>
+<tr><td><b>F2</b></td><td style="text-align:left">Book-equity residual relative to market cap</td><td style="color:var(--amber);font-weight:700">−1</td></tr>
+<tr><td><b>F3</b></td><td style="text-align:left">Quarterly-sales residual relative to market cap</td><td style="color:var(--amber);font-weight:700">−1</td></tr>
+<tr><td><b>F4</b></td><td style="text-align:left">Quarterly net-income residual relative to book equity</td><td>+1</td></tr>
+<tr><td><b>F5</b></td><td style="text-align:left">TTM free cash flow / (market cap + total liabilities − cash)</td><td>+1</td></tr>
+<tr><td><b>F6</b></td><td style="text-align:left">Seasonal earnings surprise / market cap strictly before release</td><td>+1</td></tr>
+</table></div>
+<div class="callout">Signs fixed on 2015–2018 RankIC and never revisited. Two are negative, so the composite is not "buy more of everything".</div>
+</div>
+<div class="foot"><span>Report §3.1 · Table 2</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.21"></i></div>
+<aside class="notes">We construct six fundamental signals. Four of them are residuals. For example, F one regresses signed-log net income on signed-log market capitalization across the cross-section each day, and keeps the residual. It measures earnings strength conditional on size rather than a raw ratio. F five is free-cash-flow yield over an enterprise-value proxy. F six is a seasonal earnings surprise, normalized by the last market capitalization strictly before the release date. Each signal has a fixed direction, set using average rank I C on 2015 to 2018 only. Two of the signs are negative, book equity and sales, so the composite does not simply buy more of everything. The signs were never revisited after 2018.</aside></section>
+
+<!-- 7 -->
+<section class="slide"><div class="rail"><b>02 · Features</b></div>
+<p class="over">02 · Residual construction</p><h1>Strength conditional on another firm attribute</h1>
+<div class="body">
+<div class="two">
+<div>
+<div class="eq small">g(x) = sign(x) · log(1 + |x| / 10<sup>6</sup>)</div>
+<div class="eq small">g(A<sub>i,T</sub>) = a<sub>T</sub> + b<sub>T</sub> g(B<sub>i,T</sub>) + ε<sub>i,T</sub></div>
+</div>
+<ul>
+<li>One cross-sectional OLS per session, ≥ 30 finite pairs; the residual ε is the signal.</li>
+<li>Dollar-million convention matters: the signed log is not unit-invariant.</li>
+<li>Economic idea: financial strength <i>given</i> size (or book equity), not an absolute ratio.</li>
+<li>Honest check (Appendix A): residuals are <b>not</b> uniformly better than traditional ratios on 2019–2021.</li>
+</ul>
+</div></div>
+<div class="foot"><span>Report §3.1 · Eqs. (2)–(3) · Table 14</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.25"></i></div>
+<aside class="notes">The residual construction works like this. Monetary quantities are passed through a signed logarithm in millions of dollars. Then, for each session, we regress one transformed variable on another across all eligible firms, with at least thirty observations, and keep the residual. The economic idea is to measure financial strength conditional on another attribute of the same firm, instead of using an absolute ratio. We also checked this idea honestly: on the stability period, the residual versions are not uniformly better than traditional ratios. That comparison is in the appendix of the report, and we did not use it to change the factor set.</aside></section>
+
+<!-- 8 -->
+<section class="slide"><div class="rail"><b>02 · Features</b></div>
+<p class="over">02 · Price–volume screening</p><h1>36 formulaic candidates, three survive a pre-declared screen</h1>
+<div class="body"><div class="two wide">
+<ul>
+<li>36 of the 101 formulaic alphas (Kakushadze 2016) implemented.</li>
+<li><b>Direction</b> on 2015–2018. <b>Stability</b> on 2019–2021: signed mean RankIC ≥ 0.01, coverage ≥ 50 %, positive in ≥ 2 of 3 years.</li>
+<li><b>Redundancy:</b> drop if |mean daily rank correlation| &gt; 0.8.</li>
+<li>Survivors: <b>WQ040, WQ019, WQ026</b>. Single-factor RankICs are small, as expected at a 10-day horizon.</li>
+</ul>
+<div class="card fig"><img src="assets/correlation.png" alt="rank correlation matrix"></div>
+</div></div>
+<div class="foot"><span>Report §3.2 · Table 3 · Figure 2</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.29"></i></div>
+<aside class="notes">For price and volume information we implemented thirty-six formulaic alphas from the public list of one hundred and one. Direction was set on 2015 to 2018. The stability screen on 2019 to 2021 required a signed mean rank I C of at least zero point zero one, coverage of at least fifty percent, and a positive value in at least two of the three years. A redundancy cut at a rank correlation of zero point eight removes near duplicates. Three signals survive. The correlation matrix on the right shows that the fundamentals and the surviving price signals are only weakly related to each other. Individual rank I Cs are small, which is expected for a ten-day horizon.</aside></section>
+
+<!-- 9 -->
+<section class="slide"><div class="rail"><b>02 · Leakage</b></div>
+<p class="over">02 · Leakage controls</p><h1>Three rules that keep the future out</h1>
+<div class="body"><div class="cols3">
+<div class="card"><h2>Scaling</h2><ul><li>All ranks are cross-sectional <b>within the same date</b>.</li><li>No future sample moments.</li><li>Missing → neutral zero; the stock is kept, not dropped.</li></ul></div>
+<div class="card"><h2>Financial timing</h2><ul><li>Every statement field has a mapped availability date.</li><li>Earnings surprise needs all 12 prior quarters available before the release.</li><li>Normalised by cap <b>strictly before</b> release.</li></ul></div>
+<div class="card warn"><h2>Stress &amp; purge</h2><ul><li>Delay every availability date by 5 and 20 sessions and <b>rebuild the signals</b>.</li><li>Training rows need a matured label: T+11 &lt; forecast origin.</li></ul></div>
+</div></div>
+<div class="foot"><span>Report §2.3 · §3.1 · §9.2</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.32"></i></div>
+<aside class="notes">Three leakage controls. First, scaling. All ranks are cross-sectional within the same date, so no future sample moments are used. Missing values become a neutral zero contribution, and the stock is kept rather than dropped. Second, financial timing. Every statement field has a mapped availability date. The earnings surprise requires all twelve prior quarters to be available before the release, and it is normalized by the market capitalization strictly before the release. Third, a stress test. We delay every availability date by five and by twenty sessions and rebuild all signals from scratch. For the learned models, a training row is admissible only if its label has fully matured before the forecast origin.</aside></section>
+
+<!-- 10 -->
+<section class="slide"><div class="rail"><b>03 · Split</b></div>
+<p class="over">03 · Time split and training windows</p><h1>Develop on 2015–2021, validate on 2022, evaluate on 2023–2025</h1>
+<div class="body">
+<div class="timeline">
+<div class="d1"><b>2015–2018</b>factor directions</div>
+<div class="d2"><b>2019–2021</b>stability &amp; redundancy</div>
+<div class="d3"><b>2022</b>validation: grids, trading rules</div>
+<div class="d4"><b>2023–2025</b>evaluation · half-year refits · costs</div>
+</div>
+<div class="card" style="padding:10px 36px">
+<table>
+<tr><th>Forecast half</th><th>Training rows</th><th>Last signal</th><th>Last label end</th></tr>
+<tr><td>2023 H1</td><td>4,114,869</td><td>2022-12-14</td><td>2022-12-30</td></tr>
+<tr><td>2023 H2</td><td>4,382,585</td><td>2023-06-14</td><td>2023-06-30</td></tr>
+<tr><td>2024 H1</td><td>4,650,303</td><td>2023-12-13</td><td>2023-12-29</td></tr>
+<tr><td>2024 H2</td><td>4,914,431</td><td>2024-06-12</td><td>2024-06-28</td></tr>
+<tr><td>2025 H1</td><td>5,184,802</td><td>2024-12-13</td><td>2024-12-31</td></tr>
+<tr><td>2025 H2</td><td>5,437,991</td><td>2025-06-12</td><td>2025-06-30</td></tr>
+</table></div>
+</div>
+<div class="foot"><span>Report §2.3 · Table 1 — expanding window from 2015; ten-day labels overlap, so rows are not independent</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.36"></i></div>
+<aside class="notes">The time split. 2015 to 2018 fixes factor directions. 2019 to 2021 checks stability and redundancy. 2022 is the validation year, used for hyper-parameters and trading rules. 2023 to 2025 is the evaluation period. Learned models are refit every half year on an expanding window from 2015. The table shows the six windows. In every row, the last label end is before the next forecast half begins, which is the maturity purge in action. Training rows are counted in millions, but ten-day labels overlap, so these are not independent observations.</aside></section>
+
+<!-- 11 -->
+<section class="slide"><div class="rail"><b>03 · Models</b></div>
+<p class="over">03 · Models, pre-declared grids, one selection rule</p><h1>Six model–group pairs and a grid of eight: that is the whole search</h1>
+<div class="body">
+<div class="card" style="padding:10px 36px;margin-bottom:26px">
+<table>
+<tr><th>Family</th><th style="text-align:left">Pre-declared candidates</th><th>Selected on 2022</th></tr>
+<tr><td><b>Ridge</b></td><td style="text-align:left">per-sample penalty {0.001, 0.01}</td><td>0.01</td></tr>
+<tr><td><b>Lasso</b></td><td style="text-align:left">penalty {0.0001, 0.0005}</td><td>0.0005</td></tr>
+<tr><td><b>XGBoost</b></td><td style="text-align:left">depth {2, 3} · 120 trees · lr 0.05 · subsample 0.8 · min child 100 · seed 5205</td><td>depth 2</td></tr>
+</table></div>
+<div class="two">
+<ul>
+<li>Group <b>A</b> = 3 price–volume signals; group <b>B</b> = A + 6 fundamentals. Same dates, rows, targets, seeds.</li>
+<li>Inputs: percentile ranks centred at 0.5, plus missing flags.</li>
+</ul>
+<ul>
+<li><b>Selection rule:</b> maximise 2022 daily RankIC on A; reuse for B.</li>
+<li>Execution grid on 2022 Ridge-A net Sharpe: smoothing {1,3,5,10} × rebalance {1,5} → none, 5. Later refinement (150 buffer, 10 sessions) on reused-2022 active IR.</li>
+</ul>
+</div></div>
+<div class="foot"><span>Report §4 · Table 4</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.39"></i></div>
+<aside class="notes">Our economic story is that accounting information is slow moving and should complement fast price and volume signals. We tested that in two ways: adding fundamentals to a learned forecast, and using the fundamentals directly as a rank composite. For the learned forecasts we used ridge, lasso and shallow gradient-boosted trees, each on group A, price-volume only, and group B, which adds the six fundamentals, with identical dates, rows, targets and seeds. The grids were tiny and declared in advance: two ridge penalties, two lasso penalties, tree depth two or three. The selection rule was a single number, the 2022 daily rank I C on group A, then reused for B. The execution grid on 2022 picked no smoothing and five-session rebalancing. A later refinement added a one-hundred-and-fifty-rank retention buffer and ten-session rebalancing, chosen on the reused 2022 active information ratio.</aside></section>
+
+<!-- 12 -->
+<section class="slide"><div class="rail"><b>03 · Overfitting</b></div>
+<p class="over">03 · Overfitting control</p><h1>Small grids, shrinkage, a fixed seed — and one honest caveat</h1>
+<div class="body"><div class="two">
+<div class="card"><h2>Controls</h2><ul>
+<li>Shrinkage in every learner; only 9 inputs.</li>
+<li>Depth-2 trees, min child weight 100, 120 trees.</li>
+<li>Fixed seed 5205; nothing re-tuned after 2022.</li>
+<li>The final composite has <b>no fitted return model</b>: six fixed-sign ranks, averaged.</li>
+</ul></div>
+<div class="card" style="border-left:10px solid var(--amber)"><h2>Status of the final candidate</h2><ul>
+<li>√cap weighting was nominated <b>after</b> seeing the 2023–2025 comparisons.</li>
+<li>In 2022 the cap-weighted variant did slightly better: −13.67 % vs −14.41 %.</li>
+<li>So: a <b>retrospective nomination</b> among fully reported alternatives, not a blind-test winner.</li>
+</ul></div>
+</div></div>
+<div class="foot"><span>Report §4 · §7</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.43"></i></div>
+<aside class="notes">Overfitting control: shrinkage in every learner, only nine inputs, depth-two trees with a minimum child weight of one hundred, a fixed seed, and no re-tuning after 2022. The final composite has no fitted return model at all. It is six fixed-sign ranks, averaged, so there is almost nothing to overfit in the forecasting step. But we must be honest about one thing. The square-root-of-cap weighting of the final candidate was nominated after we had seen the 2023 to 2025 comparisons. In 2022, the cap-weighted variant was actually slightly better. So the final candidate is a retrospective nomination among alternatives that we report in full. It is not a blind-test winner, and the report says so explicitly.</aside></section>
+
+<!-- 13 -->
+<section class="slide"><div class="rail"><b>04 · Positions</b></div>
+<p class="over">04 · From score to position</p><h1>Rank, select with a buffer, weight by √cap</h1>
+<div class="body">
+<div class="eq small">z<sub>i,k,T</sub> = R<sub>T</sub>(d<sub>k</sub> f<sub>i,k,T</sub>) − ½ &nbsp;(0 if missing), &nbsp;&nbsp; S<sub>i,T</sub> = (1/6) Σ<sub>k=1..6</sub> z<sub>i,k,T</sub></div>
+<div class="flow">
+<div class="box"><em>Step 1</em><strong>Rank</strong>signed percentile rank per signal, per date; average of six</div><div class="arrow">→</div>
+<div class="box"><em>Step 2 · every 10 sessions</em><strong>Select ~100</strong>keep incumbents ranked ≤ 150; fill remaining slots by score</div><div class="arrow">→</div>
+<div class="box"><em>Step 3</em><strong>Weight ∝ √cap</strong>2 % target cap by water-filling; residual stays in cash</div>
+</div>
+<ul>
+<li>Long-only, unlevered, cash earns zero; ties broken by a seeded hash (5205). The 150 buffer keeps turnover at <b>0.82 % per day</b>.</li>
+<li>Unfillable buys stay cash; unsellable names stay held — never replaced using a future quote.</li>
+</ul>
+</div>
+<div class="foot"><span>Report §5 · Eq. (4)</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.46"></i></div>
+<aside class="notes">Now the rule that turns a score into a position. The composite score is the average of six signed percentile ranks, centered at zero, with missing signals contributing zero and the denominator fixed at six. Every tenth session we form targets. Names already held are kept if their rank is still within the top one hundred and fifty; the remaining slots are filled in score order down to about one hundred names. This retention buffer is what keeps turnover under one percent per day. Inside the selected set, weights are proportional to the square root of market capitalization, with a two percent target cap per name applied by water filling, and any residual stays in cash. The portfolio is long only and unlevered. Unfillable buys stay in cash and unsellable names stay held; the ledger never substitutes a name using a future quote.</aside></section>
+
+<!-- 14 -->
+<section class="slide"><div class="rail"><b>04 · Ledger</b></div>
+<p class="over">04 · Net-return accounting</p><h1>Costs on both sides, entry and exit inside the CAGR</h1>
+<div class="body">
+<div class="eq">r<sup>gross</sup><sub>t</sub> = Σ<sub>i</sub> w<sup>−</sup><sub>i,t</sub> r<sub>i,t</sub> &nbsp;&nbsp;&nbsp; c<sub>t</sub> = (b / 10<sup>4</sup>) · q<sub>t</sub> &nbsp;&nbsp;&nbsp; r<sup>net</sup><sub>t</sub> = r<sup>gross</sup><sub>t</sub> − c<sub>t</sub></div>
+<div class="two">
+<ul>
+<li>q<sub>t</sub> = absolute traded notional / preceding wealth; b = 10, 20 or 30 bps on <b>both</b> buys and sells.</li>
+<li>Start from cash, enter at the first scheduled next-close trade, liquidate at the end.</li>
+<li>CAGR = [Π(1+r<sub>t</sub>)]<sup>252/n</sup> − 1 · Sharpe = √252 · mean/sd, zero cash rate · MDD includes initial wealth in the peak.</li>
+</ul>
+<div class="stats" style="flex-direction:column;gap:18px;margin:0">
+<div class="stat"><b>0.8876</b><span>stock profit per unit capital</span></div>
+<div class="stat warn"><b>− 0.0177</b><span>fees</span></div>
+<div class="stat accent"><b>= 0.8699</b><span>net cumulative profit · reconciles to the wealth path</span></div>
+</div>
+</div></div>
+<div class="foot"><span>Report §5 · Eqs. (5)–(6) · §8.1</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.50"></i></div>
+<aside class="notes">The accounting is simple and fully reconciled. Gross return is beginning-of-period weights times asset returns. Cost is the basis-point rate times the absolute traded notional, charged on both sides. Net return is the difference. Every evaluation starts from cash, enters at the first scheduled next-close trade, and liquidates at the end, so entry and exit costs are inside the reported compound return. Annualized return, volatility and Sharpe use the usual two-hundred-and-fifty-two-session conventions with a zero cash rate. We also checked that the sum of stock profits minus fees equals the cumulative net profit from the wealth path, to the fourth decimal.</aside></section>
+
+<!-- 15 -->
+<section class="slide"><div class="rail"><b>05 · Run</b></div>
+<p class="over">05 · End-to-end run with the authorised data snapshot</p><h1>Data build → signals → portfolio → net returns, in two commands</h1>
+<div class="body">
+<div class="term"><div class="bar"><i></i><i></i><i></i><span>zsh — dsa5205-project2-final</span></div>
+<pre><span class="c"># 1 · data build: aligned daily panel + 10-interval labels from the raw snapshot</span>
+<span class="k">$</span> PYTHONPATH=src .venv/bin/python -m usq.database.close_labels \
+      --source data --output runs/snapshots/team34_nextclose10_v2
+
+<span class="c"># 2 · six fundamentals → composite → buffered selection → √cap weights → cost ledger</span>
+<span class="k">$</span> PYTHONPATH=src .venv/bin/python -m usq.project2.final_study \
+      --standalone --output runs/demo_video
+
+<span class="c"># 3 · read the net result (14 portfolio/phase combinations)</span>
+<span class="k">$</span> grep fundamental_sqrt_cap runs/demo_video/portfolio_summary.csv</pre></div>
+<ul style="margin-top:26px">
+<li>Deterministic: nothing is fitted in the final strategy; tie seed 5205; 75 snapshot files verified by content hash.</li>
+<li>Raw security-level data are <b>not</b> redistributed; the repository ships the strategy-level daily ledgers instead.</li>
+</ul>
+</div>
+<div class="foot"><span>README.md · docs/FINAL_STUDY.md</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.54"></i></div>
+<aside class="notes">Here is the end-to-end run. The first command builds the aligned daily panel and the ten-interval labels from the raw snapshot. The second command rebuilds all six fundamentals from the financial statements, forms the composite, replays the buffered selection and the square-root-cap allocation through the cost ledger, and writes fourteen portfolio and phase combinations. Nothing is fitted here. The run is deterministic, and the input snapshot is verified file by file with content hashes. The raw security-level data cannot be redistributed, so the repository ships the strategy-level daily ledgers that the report is built from.</aside></section>
+
+<!-- 16 -->
+<section class="slide"><div class="rail"><b>05 · Run</b></div>
+<p class="over">05 · Recorded run on a clean checkout, shipped aggregates only</p><h1>Tests → figures and tables → report, no hand-typed numbers</h1>
+<div class="body">
+<div class="term"><div class="bar"><i></i><i></i><i></i><span>zsh — dsa5205-project2-final · Python 3.13</span></div>
+<pre style="font-size:21px;line-height:1.4"><span class="k">$</span> PYTHONPATH=src .venv/bin/python -m pytest tests -q
+....................................                                     [100%]
+<span class="ok">36 passed</span> in 6.67s
+
+<span class="k">$</span> PYTHONPATH=src .venv/bin/python scripts/build_final_report_assets.py
+<span class="k">$</span> ls reports/final/figures
+ablation.pdf  annual_rolling.pdf  correlation.pdf  fusion.pdf  intervals.pdf
+stress.pdf  styles.pdf  universe.pdf  wealth_drawdown.pdf
+
+<span class="k">$</span> .venv/bin/python -c "print selected rows of results/project2_final/portfolio_summary.csv"
+                case      phase  days  annual_return  sharpe  max_drawdown  mean_daily_turnover
+<span class="hl">fundamental_sqrt_cap evaluation   752         0.2334  1.3806       -0.2078               0.0082</span>
+            pool_cap evaluation   752         0.2208  1.3637       -0.1946               0.0023
+           fusion_25 evaluation   752         0.2030  1.0287       -0.2576               0.0416
+             cost_20 evaluation   752         0.2283  1.3548       -0.2083               0.0082
+              lag_20 evaluation   752         0.2177  1.3095       -0.1979               0.0084
+
+<span class="k">$</span> cd reports/final &amp;&amp; pdflatex Group_34_Report.tex   <span class="c"># ×2 → 20-page PDF</span></pre></div>
+</div>
+<div class="foot"><span>Every table and figure in the report is regenerated from results/project2_final/</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.57"></i></div>
+<aside class="notes">This is the recorded output of the same pipeline run from the shipped aggregates on a clean checkout. The test suite covers the label protocol, the buffered selection, the ledger accounting and the final-study entry: thirty-six tests pass. The asset script regenerates every table and figure in the report from the results directory. The summary rows show the final candidate with an annual return of zero point two three three four and a Sharpe of one point three eight, the cap-weighted pool benchmark, the fusion variant, and the twenty basis point and twenty-session delay stresses. LaTeX then compiles the twenty-page report. No result number in the report is typed by hand.</aside></section>
+
+<!-- 17 -->
+<section class="slide"><div class="rail"><b>06 · Results</b></div>
+<p class="over">06 · Out-of-sample 2023–2025, net of 10 bps</p><h1>Half a point more return than SPY — with more risk</h1>
+<div class="body">
+<div class="stats compact">
+<div class="stat accent"><b>23.34 %</b><span>net CAGR</span><small>SPY 22.86 %</small></div>
+<div class="stat"><b>1.381</b><span>Sharpe</span><small>SPY 1.419</small></div>
+<div class="stat warn"><b>−20.78 %</b><span>max drawdown</span><small>SPY −18.76 %</small></div>
+<div class="stat"><b>0.82 %</b><span>turnover / day</span><small>expanded Ridge: 6.81 %</small></div>
+</div>
+<div class="card" style="padding:4px 36px"><style>.compact .stat b{font-size:60px}.compact .stat{padding:20px 28px 16px}.compact{margin-bottom:22px}#t17 td,#t17 th{padding:10px 18px}</style>
+<table id="t17">
+<tr><th>Strategy</th><th>CAGR %</th><th>Vol %</th><th>Sharpe</th><th>MDD %</th><th>Turn %/day</th></tr>
+<tr class="hl"><td>Fundamental √cap — final candidate</td><td>23.34</td><td>16.14</td><td>1.381</td><td>−20.78</td><td>0.82</td></tr>
+<tr><td>SPY buy-and-hold</td><td>22.86</td><td>15.34</td><td>1.419</td><td>−18.76</td><td>—</td></tr>
+<tr><td>Fundamental cap</td><td>22.86</td><td>16.00</td><td>1.367</td><td>−20.76</td><td>0.83</td></tr>
+<tr><td>Fundamental equal-weight</td><td>21.04</td><td>17.74</td><td>1.165</td><td>−20.87</td><td>0.99</td></tr>
+<tr><td>Pool cap — same universe, no signal</td><td>22.08</td><td>15.51</td><td>1.364</td><td>−19.46</td><td>0.23</td></tr>
+<tr class="dim"><td>Expanded Ridge A′ / B′</td><td>19.37 / 14.42</td><td>26.35 / 24.79</td><td>0.803 / 0.667</td><td>−32.02 / −33.26</td><td>6.81 / 4.69</td></tr>
+</table></div>
+</div>
+<div class="foot"><span>Report §8 · Table 9</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.61"></i></div>
+<aside class="notes">Now the out-of-sample results, 2023 to 2025, net of ten basis points. The final candidate compounds at twenty-three point three four percent a year, with sixteen point one percent volatility, a Sharpe ratio of one point three eight, and a maximum drawdown of minus twenty point eight percent. SPY over the same window earns twenty-two point eight six percent, with a Sharpe of one point four two and a drawdown of minus eighteen point eight percent. So we beat SPY on return by about half a point, and lose to it on Sharpe and on drawdown. The expanded learned models, with more features, have higher volatility, deeper drawdowns and much higher turnover.</aside></section>
+
+<!-- 18 -->
+<section class="slide"><div class="rail"><b>06 · Results</b></div>
+<p class="over">06 · Wealth and drawdown paths</p><h1>The candidate tracks SPY closely; its drawdowns are no shallower</h1>
+<div class="body" style="align-items:center"><div class="card fig tall" style="width:1400px"><img src="assets/wealth_drawdown.png" alt="wealth and drawdown"></div></div>
+<div class="foot"><span>Report Figure 3 — strategy paths start from cash under the same ledger; SPY starts at the aligned investment close</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.64"></i></div>
+<aside class="notes">The figure shows the aligned net wealth paths and the drawdowns. All strategy and pool paths start from cash under the same ledger, and SPY starts at the aligned investment close. The candidate and SPY track each other closely for most of the period. The drawdown panel shows that the candidate's drawdowns are as deep as or deeper than SPY's, which is consistent with the lower Sharpe ratio in the table.</aside></section>
+
+<!-- 19 -->
+<section class="slide"><div class="rail"><b>06 · Results</b></div>
+<p class="over">06 · Year by year</p><h1>The edge changes sign every year</h1>
+<div class="body"><div class="two narrow">
+<div>
+<div class="card" style="padding:8px 30px">
+<table>
+<tr><th>Year</th><th>Candidate %</th><th>SPY %</th><th>Diff pp</th></tr>
+<tr><td>2023</td><td>19.57</td><td>25.74</td><td style="color:var(--amber);font-weight:700">−6.17</td></tr>
+<tr><td>2024</td><td>33.65</td><td>24.89</td><td style="color:var(--teal);font-weight:700">+8.76</td></tr>
+<tr><td>2025</td><td>17.01</td><td>17.72</td><td style="color:var(--amber);font-weight:700">−0.71</td></tr>
+</table></div>
+<p class="small" style="margin-top:20px">Continuously held portfolio; 2023 includes entry costs, 2025 liquidation.</p>
+</div>
+<div class="card fig"><img src="assets/annual_rolling.png" alt="annual returns and rolling relative wealth"></div>
+</div></div>
+<div class="foot"><span>Report §8.1 · Table 10 · Figure 4</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.68"></i></div>
+<aside class="notes">Year by year, the picture changes sign. The candidate lags SPY by six point two points in 2023, beats it by eight point eight points in 2024, and lags by zero point seven in 2025. The rolling relative-wealth path on the right crosses zero several times. This argues against reading the three-year point estimate as a stable annual premium.</aside></section>
+
+<!-- 20 -->
+<section class="slide"><div class="rail"><b>06 · Benchmarks</b></div>
+<p class="over">06 · Allocation explains most of the gap to SPY</p><h1>Same pool, no signal: weighting alone moves CAGR by ten points</h1>
+<div class="body">
+<div class="stats">
+<div class="stat"><b>12.25 %</b><span>pool · equal-weight</span><small>Sharpe 0.690 · MDD −25.34 %</small></div>
+<div class="stat"><b>15.38 %</b><span>pool · √cap</span><small>Sharpe 0.953 · MDD −20.81 %</small></div>
+<div class="stat accent"><b>22.08 %</b><span>pool · cap-weight</span><small>Sharpe 1.364 · MDD −19.46 % · ≈ SPY</small></div>
+<div class="stat warn"><b>+1.26 pp</b><span>our signal over pool cap</span><small>23.34 − 22.08</small></div>
+</div>
+<div class="callout">Judge an equal-weight model portfolio against a <b>matched-universe cap-weighted benchmark</b>, not only against a market ETF. SPY has different constituents and concentration, so this is a diagnostic, not a reconstruction.</div>
+</div>
+<div class="foot"><span>Report §7 · Table 8</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.71"></i></div>
+<aside class="notes">A key finding is that allocation explains most of the gap to SPY. Take the same eligible pool with no signal at all. Equal weighted, it earns twelve point two five percent. Square-root-cap weighted, fifteen point four. Cap weighted, twenty-two point one, almost the same as SPY. Changing only the weighting moves the result by ten percentage points. Our signal adds one point two six points over the cap-weighted pool. The lesson is that an equal-weight model portfolio should be judged against a matched-universe cap-weighted benchmark, not only against a market ETF.</aside></section>
+
+<!-- 21 -->
+<section class="slide"><div class="rail"><b>06 · Models</b></div>
+<p class="over">06 · Do fundamentals help a learned forecast?</p><h1>Tiny gains, one misleading tie, and a turnover lesson</h1>
+<div class="body"><div class="two" style="grid-template-columns:1.1fr 1fr">
+<div class="card" style="padding:8px 30px">
+<table>
+<tr><th>Model · 5-session, EW</th><th>A %</th><th>B %</th><th>B − A pp</th></tr>
+<tr><td>Ridge</td><td>8.25</td><td>8.51</td><td>+0.26</td></tr>
+<tr><td>Lasso</td><td>11.34</td><td>11.34</td><td>0.00</td></tr>
+<tr><td>XGBoost</td><td>9.49</td><td>9.83</td><td>+0.35</td></tr>
+<tr><td style="padding-top:26px">Buffered Ridge A</td><td style="padding-top:26px">8.32</td><td style="padding-top:26px">—</td><td style="padding-top:26px">turn 16.4 → 8.4</td></tr>
+<tr><td>Buffered Ridge B</td><td>—</td><td>11.62</td><td>turn 10.7 → 5.0</td></tr>
+</table></div>
+<ul>
+<li>Adding fundamentals changes CAGR by less than half a point — far below the gap to SPY.</li>
+<li>Lasso A = B because <b>every factor coefficient is zero</b>; the ranking came from a missingness flag and the last half-year is cash. A good-looking number that means nothing.</li>
+<li>Buffering halves turnover but barely moves Ridge A. <b>Lower cost ≠ better forecast.</b></li>
+<li>⇒ the final candidate is the simple composite, not a learned forecast.</li>
+</ul>
+</div></div>
+<div class="foot"><span>Report §6 · Tables 5–6</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.75"></i></div>
+<aside class="notes">Did fundamentals help a learned forecast? Only a little. Adding them moved ridge from eight point two five to eight point five one percent, and gradient boosting from nine point four nine to nine point eight three. Lasso A and B are identical, and we checked why: every factor coefficient was zero, the ranking came from a missingness indicator, and the final half year was all cash. That is a good-looking number that means nothing, and we report it so that the table cannot mislead. Buffering the ridge portfolio halves its turnover but barely moves its return, so lower cost is not evidence of a better forecast. This is why the final candidate is the simple composite rather than a learned forecast.</aside></section>
+
+<!-- 22 -->
+<section class="slide"><div class="rail"><b>06 · Stress</b></div>
+<p class="over">06 · Cost and information-delay stress</p><h1>The small edge over SPY does not survive modest stress</h1>
+<div class="body"><div class="two">
+<div>
+<div class="card" style="padding:8px 30px">
+<table>
+<tr><th>Scenario</th><th>CAGR %</th><th>Sharpe</th><th>MDD %</th></tr>
+<tr class="hl"><td>10 bps, baseline timing</td><td>23.34</td><td>1.381</td><td>−20.78</td></tr>
+<tr><td>20 bps</td><td>22.83</td><td>1.355</td><td>−20.83</td></tr>
+<tr><td>30 bps</td><td>22.32</td><td>1.329</td><td>−20.88</td></tr>
+<tr><td>+5-session availability delay</td><td>22.65</td><td>1.348</td><td>−20.83</td></tr>
+<tr><td>+20-session availability delay</td><td>21.77</td><td>1.310</td><td>−19.79</td></tr>
+<tr class="dim"><td>SPY</td><td>22.86</td><td>1.419</td><td>−18.76</td></tr>
+</table></div>
+<p class="small" style="margin-top:18px">Each scenario reruns the full ledger; delays rebuild the accounting variables rather than shifting a finished factor.</p>
+</div>
+<div class="card fig"><img src="assets/stress.png" alt="stress"></div>
+</div></div>
+<div class="foot"><span>Report §9.2 · Table 12 · Figure 7</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.79"></i></div>
+<aside class="notes">Stress tests. At twenty basis points the candidate drops to twenty-two point eight three percent, already below SPY. At thirty basis points, twenty-two point three. Delaying the availability of every financial field by five sessions gives twenty-two point six five; by twenty sessions, twenty-one point seven seven. Each scenario reruns the full wealth and trading ledger, and the delay scenarios rebuild the accounting variables from the delayed fields rather than shifting a finished factor. The small advantage over SPY does not survive modest cost or timing stress.</aside></section>
+
+<!-- 23 -->
+<section class="slide"><div class="rail"><b>06 · Ablation</b></div>
+<p class="over">06 · Leave-one-factor-out</p><h1>Every deletion hurts in evaluation — but 2022 disagrees</h1>
+<div class="body"><div class="two wide">
+<div class="card fig"><img src="assets/ablation.png" alt="ablation"></div>
+<div>
+<div class="stats" style="flex-direction:column;gap:18px;margin-bottom:22px">
+<div class="stat warn"><b>−2.3 … −5.0 pp</b><span>evaluation CAGR change, any one signal removed</span></div>
+<div class="stat"><b>+10.6 pp</b><span>validation 2022 if F2 were removed</span></div>
+</div>
+<p>No stable stand-alone alpha per factor is claimed, and the factor set was <b>not</b> changed after seeing these results.</p>
+</div></div></div>
+<div class="foot"><span>Report §9.1 · Table 11 · Figure 6</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.82"></i></div>
+<aside class="notes">Leave-one-factor-out ablation. In the evaluation period, removing any one of the six signals lowers the compound return, by two point three to five points. But the validation year tells a different story: removing F two would have helped by more than ten points in 2022. So we do not claim stable stand-alone alpha for each factor, and we did not use these results to change the factor set after seeing the evaluation.</aside></section>
+
+<!-- 24 -->
+<section class="slide"><div class="rail"><b>06 · Fusion</b></div>
+<p class="over">06 · Extension: score-level fusion with a price model</p><h1>Validation preferred a mix; evaluation punished it</h1>
+<div class="body"><div class="two wide">
+<div class="card fig"><img src="assets/fusion.png" alt="fusion"></div>
+<div>
+<div class="eq small" style="margin-bottom:20px;font-size:33px">S<sup>(λ)</sup> = (1−λ) R(S) + λ R(P), λ ∈ {0, ¼, ½}</div>
+<div class="card" style="padding:8px 26px">
+<table>
+<tr><th>λ</th><th>CAGR %</th><th>Sharpe</th><th>Turn %</th></tr>
+<tr class="hl"><td>0 · pure fundamental</td><td>23.34</td><td>1.381</td><td>0.82</td></tr>
+<tr><td>0.25 · chosen on 2022</td><td>20.30</td><td>1.029</td><td>4.16</td></tr>
+<tr><td>0.50</td><td>17.06</td><td>0.857</td><td>5.80</td></tr>
+</table></div>
+<p class="small" style="margin-top:16px">Worse in all six cost/delay scenarios; gross return falls too, so costs are only part of the story.</p>
+</div></div></div>
+<div class="foot"><span>Report §10 · Table 13 · Figure 8</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.86"></i></div>
+<aside class="notes">We also tested whether mixing in a separately estimated price-volume score helps. The combined score is a weighted average of the fundamental rank and the ridge prediction rank, with weights zero, one quarter and one half. The weight of one quarter was selected on 2022 by a pre-declared rule. In evaluation it lowered the compound return to twenty point three percent and raised daily turnover from zero point eight to four point two percent. Gross return fell too, so costs are only part of the story. More information did not help, and a validation year preferred the wrong option.</aside></section>
+
+<!-- 25 -->
+<section class="slide"><div class="rail"><b>06 · Uncertainty</b></div>
+<p class="over">06 · How much of the edge is noise?</p><h1>Every paired bootstrap interval contains zero</h1>
+<div class="body"><div class="two wide">
+<div class="card fig"><img src="assets/intervals.png" alt="bootstrap intervals"></div>
+<div>
+<div class="stat accent" style="margin-bottom:22px"><b>+0.47 pp</b><span>candidate minus SPY, CAGR</span><small>95 % interval [−8.34, +11.69]</small></div>
+<div class="card" style="padding:8px 26px">
+<table>
+<tr><th>Candidate minus …</th><th>Diff pp</th><th>95 % interval</th></tr>
+<tr><td>Pool cap</td><td>+1.26</td><td>[−7.02, 10.77]</td></tr>
+<tr><td>Fundamental EW</td><td>+2.30</td><td>[−3.40, 6.93]</td></tr>
+<tr><td>Fusion 0.25</td><td>+3.04</td><td>[−5.48, 10.52]</td></tr>
+<tr><td>Fusion 0.50</td><td>+6.27</td><td>[−4.97, 15.41]</td></tr>
+</table></div>
+<p class="small" style="margin-top:14px">Paired circular block bootstrap · 2,000 resamples · 20-session blocks · seed 5205</p>
+</div></div></div>
+<div class="foot"><span>Report §11 · Table 14 · Figure 9</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.89"></i></div>
+<aside class="notes">How much of the edge is noise? We use a paired circular block bootstrap on common sessions, two thousand resamples, twenty-session blocks, seed five two zero five. The difference to SPY is plus zero point four seven points, with a ninety-five percent interval from minus eight point three to plus eleven point seven. Every comparator's interval contains zero. It is therefore not appropriate to claim a statistically established improvement, and we do not.</aside></section>
+
+<!-- 26 -->
+<section class="slide"><div class="rail"><b>07 · Lessons</b></div>
+<p class="over">07 · Interpretation</p><h1>What worked, what did not, what we learned</h1>
+<div class="body"><div class="cols3">
+<div class="card good"><h2>Worked</h2><ul>
+<li>Strict next-close execution and matured-label purge.</li>
+<li>Signs fixed in 2018; one pre-declared selection rule.</li>
+<li>Cost ledger that reconciles to the wealth path.</li>
+<li>Low turnover (0.82 %/day) → cheap to run.</li>
+</ul></div>
+<div class="card warn"><h2>Did not</h2><ul>
+<li>Fundamentals inside learned forecasts: tiny gains.</li>
+<li>Score fusion: good in 2022, worse after.</li>
+<li>Edge over SPY: small, sign-flipping, interval includes zero.</li>
+</ul></div>
+<div class="card" style="background:var(--teal2)"><h2>Learned</h2><ul>
+<li>Compare to a matched-universe cap-weighted benchmark first.</li>
+<li>Lower turnover is not evidence of better forecasts.</li>
+<li>A validation year can prefer the wrong thing; an untouched holdout matters more.</li>
+<li>Data vintage and membership lineage cap what can be claimed.</li>
+</ul></div>
+</div></div>
+<div class="foot"><span>Report §12–13</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.93"></i></div>
+<aside class="notes">What worked: the process. Strict next-close execution, the matured-label purge, factor signs frozen in 2018, one pre-declared selection rule, and a cost ledger that reconciles to the wealth path. The composite's turnover of under one percent per day makes it cheap to run. What did not work: adding fundamentals to learned forecasts gave tiny gains; score fusion looked good in 2022 and failed afterwards; and the advantage over SPY is small, flips sign across years, and is statistically indistinguishable from zero. What we learned: first, allocation and the opportunity set explain most of a strategy's distance to an ETF, so compare against a matched-universe cap-weighted benchmark before crediting the signal. Second, lower turnover is not evidence of better forecasts. Third, a validation year can prefer the wrong thing, so an untouched holdout matters more than a good validation score. Fourth, our data are latest financial vintages rather than point-in-time, and the membership lineage is incomplete, so we present the result as a transparent retrospective candidate, not a deployable alpha.</aside></section>
+
+<!-- 27 -->
+<section class="slide"><div class="rail"><b>07 · Limits</b></div>
+<p class="over">07 · Limitations we state, not hide</p><h1>Six reasons this is a research candidate, not a deployable alpha</h1>
+<div class="body"><div class="two" style="align-items:start">
+<ul>
+<li><b>Universe provenance:</b> membership rules and security-type lineage incomplete → survivorship cannot be ruled out.</li>
+<li><b>Financial vintage:</b> latest statements with mapped availability dates, not a true point-in-time archive; delay stress mitigates, does not cure.</li>
+<li><b>Terminal settlement:</b> some delistings lack an independent source; the ledger records the assumption instead of inventing a quote.</li>
+</ul>
+<ul>
+<li><b>Cap is a target:</b> 2 % at formation; drifted holdings reach 3.3 %; effective N ≈ 71 of ~100 names.</li>
+<li><b>Costs:</b> constant bps; no market impact, spreads or capacity.</li>
+<li><b>Selection:</b> final weighting chosen after observing history; multiple testing is reported, not erased.</li>
+</ul>
+</div></div>
+<div class="foot"><span>Report §12</span><span><b>Team 34</b> · DSA5205</span></div>
+<div class="progress"><i style="--p:0.96"></i></div>
+<aside class="notes">We state the limitations rather than hide them. The universe provenance is incomplete, so survivorship cannot be ruled out. Financial statements are latest vintages with mapped availability dates, not a true point-in-time archive; the delay stress mitigates this but does not cure it. Some terminal settlements lack an independent source, and the ledger records that assumption instead of inventing a quote. The two percent cap is a formation target; drifted holdings can exceed it, and the effective number of positions is about seventy-one rather than one hundred. Costs are a constant rate with no market impact or capacity model. And the final weighting was chosen after observing history, which we report as multiple testing rather than erase.</aside></section>
+
+<!-- 28 -->
+<section class="slide hero"><div class="inner" style="width:100%">
+<p class="over">08 · Reproducibility</p>
+<h1>Everything in the report is regenerated by the code</h1>
+<div class="line"></div>
+<div style="display:grid;grid-template-columns:1.25fr 1fr;gap:50px;align-items:start">
+<div class="term" style="box-shadow:none;border:1px solid rgba(255,255,255,.15)"><div class="bar"><i></i><i></i><i></i><span>clean checkout</span></div>
+<pre style="font-size:19.5px;line-height:1.5">$ python3.13 -m venv .venv
+$ .venv/bin/python -m pip install -r requirements.txt
+$ PYTHONPATH=src .venv/bin/python -m pytest tests -q
+$ PYTHONPATH=src .venv/bin/python \
+    scripts/build_final_report_assets.py
+$ cd reports/final &amp;&amp; pdflatex Group_34_Report.tex</pre></div>
+<div>
+<p style="font-size:27px;color:#C9D6E8">Pinned requirements — Python 3.13, pandas 3.1.1, scikit-learn 1.9.1, xgboost 3.1.3 — fixed seed 5205, relative paths, no credentials. Raw data not redistributed; strategy-level ledgers included.</p>
+<div class="names" style="flex-wrap:wrap;margin-top:28px"><span>Wan Gehong</span><span>Wang Tianyi</span><span>Wu Jiarui</span><span>Yan Tianao</span></div>
+<p class="meta">Contributions: report Appendix A · github.com/UtAstN/dsa5205-project2-final</p>
+<p style="font-size:36px;color:#fff;margin-top:30px">Thank you.</p>
+</div></div>
+</div><aside class="notes">Finally, reproducibility. The repository has a README with the exact commands we showed, pinned requirements, a fixed seed, relative paths and no credentials. Raw data are not redistributed, but the strategy-level ledgers needed to rebuild every figure and table are included, and the tests run in a few seconds on a clean checkout. The report and the code are linked in the description. Contributions are listed in the appendix of the report. Thank you for watching.</aside></section>
+
+<div id="notespanel"></div>
+<script>
+(function(){
+  const slides=[...document.querySelectorAll('.slide')];
+  const params=new URLSearchParams(location.search);
+  let i=parseInt(params.get('slide')||location.hash.slice(1)||'1',10);
+  if(!(i>=1&&i<=slides.length)) i=1;
+  const panel=document.getElementById('notespanel');
+  function fit(){
+    if(!document.body.classList.contains('present')) return;
+    const s=Math.min(innerWidth/1920,innerHeight/1080);
+    slides.forEach(el=>el.style.transform=`scale(${s})`);
+  }
+  function show(n){
+    i=n; slides.forEach((s,k)=>s.classList.toggle('active',k===n-1));
+    const notes=slides[n-1].querySelector('.notes');
+    panel.textContent=(n+'/'+slides.length+' — ')+(notes?notes.textContent:'');
+    if(!params.has('slide')) history.replaceState(null,'','#'+n);
+    fit();
+  }
+  if(!params.has('slide')){ document.body.classList.add('present'); addEventListener('resize',fit); }
+  show(i);
+  addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)&&i<slides.length) show(i+1);
+    else if(['ArrowLeft','PageUp'].includes(e.key)&&i>1) show(i-1);
+    else if(e.key==='n') document.body.classList.toggle('shownotes');
+    else if(e.key==='Home') show(1);
+  });
+})();
+</script>
+</body>
+</html>
