@@ -1,0 +1,15 @@
+{
+  "database": "runs/snapshots/team34_nextclose10_v2",
+  "baseline": "runs/project2_nextclose10_v2_fixed",
+  "exploration": "runs/project2_exploration_v1",
+  "deep": "runs/project2_deep_dive_v1",
+  "late_fusion": "runs/project2_late_fusion_v1",
+  "nominated_strategy": "fundamental_sqrt_cap",
+  "nomination_status": "retrospective choice after observed historical comparisons; not selected by an untouched validation/holdout",
+  "top_n": 100,
+  "buffer_n": 150,
+  "rebalance_every": 10,
+  "cost_bps": 10,
+  "max_target_weight": 0.02,
+  "tie_seed": 5205
+}

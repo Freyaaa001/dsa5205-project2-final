@@ -1,0 +1,11 @@
+{
+  "release_tests_passed": 36,
+  "full_original_workspace_tests_passed": 144,
+  "report_pages": 20,
+  "figures": 9,
+  "tables": 14,
+  "aggregate_report_rebuild": "passed using included data only",
+  "raw_data_included": false,
+  "security_level_predictions_or_holdings_included": false,
+  "historical_nomination_disclosed": true
+}

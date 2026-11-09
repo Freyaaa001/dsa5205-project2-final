@@ -1,0 +1,320 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=0.82in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx,booktabs,tabularx,array,microtype,hyperref,xcolor,enumitem,caption,float,fancyhdr,titlesec,setspace}
+\definecolor{navy}{HTML}{17365D}
+\hypersetup{colorlinks=true,linkcolor=navy,citecolor=navy,urlcolor=navy,
+pdftitle={Fundamental Signal Reconstruction and Portfolio Implementation in US Equities},pdfauthor={Team 34}}
+\titleformat{\section}{\Large\bfseries\color{navy}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.5em}{}
+\setlist[itemize]{leftmargin=1.35em,itemsep=2pt,topsep=3pt}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\headheight}{14pt}\pagestyle{fancy}\fancyhf{}
+\lhead{DSA5205 -- Project 2}\rhead{Team 34}\cfoot{\thepage}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\fig}[3]{\begin{figure}[H]\centering\includegraphics[width=#2\textwidth]{figures/#1.pdf}\caption{#3}\label{fig:#1}\end{figure}}
+\newcommand{\resulttable}[3]{\begin{table}[H]\centering\caption{#2}\label{tab:#1}\small\input{tables/#1.tex}\par\vspace{3pt}\begin{minipage}{\textwidth}\footnotesize #3\end{minipage}\end{table}}
+\setcounter{tocdepth}{1}
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+{\Large National University of Singapore\par}
+\vspace{0.2cm}
+{\large DSA5205 -- Project 2\par}
+\vspace{0.5cm}
+{\LARGE\bfseries\color{navy} Fundamental Signal Reconstruction and Portfolio Implementation in US Equities\par}
+\vspace{0.25cm}
+{\large A Comparative Study of Simple Scores and Price--Fundamental Models\par}
+\vspace{0.5cm}
+{\large Team 34\par}
+\vspace{0.12cm}
+Wan Gehong \quad Wang Tianyi \quad Wu Jiarui \quad Yan Tianao
+\par\vspace{0.12cm}10 November 2026
+\end{center}
+\vspace{0.2cm}
+\begin{abstract}
+We examine whether reconstructed accounting signals improve US equity selection and whether learned combinations add value after implementation costs. Six fundamental signals and three screened price--volume signals are studied using 2015--2021 for development, 2022 for validation, and chronological forecasts during 2023--2025. Signals formed after the close are executed at the next close, and supervised targets span the subsequent ten close-to-close intervals. Within matched model comparisons, adding fundamentals changes net annualized returns only modestly. A simpler six-signal rank composite, holding approximately 100 stocks with a retention buffer and square-root-capitalization weights, achieves a net compound annual growth rate of 23.34\% at 10 basis points per traded dollar, compared with 22.86\% for SPY and 22.08\% for a matched capitalization-weighted universe portfolio. However, the candidate has a lower Sharpe ratio and a deeper maximum drawdown than SPY. Its small return advantage disappears under higher costs or additional financial-availability delays, and paired block-bootstrap intervals include zero. Score-level fusion improves the reused validation year but deteriorates subsequently. The final candidate is nominated retrospectively after historical comparisons, rather than claimed as a validation-selected blind-test winner. Financial-vintage and universe-provenance limitations further constrain interpretation. The evidence favors a transparent, low-turnover fundamental composite within this experiment, without establishing robust benchmark outperformance.
+\end{abstract}
+\vfill
+\begin{center}\small Keywords: fundamental signals; cross-sectional ranking; transaction costs; chronological evaluation; model comparison\end{center}
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+An equity signal is useful only if its information can be converted into positions at a defensible time and at a plausible cost. A statistically informative characteristic may produce little economic benefit when its ranking changes rapidly, when its eligible universe differs from the benchmark, or when its apparent success depends on a small set of implementation choices. Accordingly, this study treats signal construction, portfolio allocation, and trading implementation as separate empirical questions.
+
+Our starting hypothesis is that accounting information may complement price--volume signals. We construct six fundamental characteristics: four residual-based transformations of earnings, book equity, sales, and profitability; free cash flow relative to an enterprise-value proxy; and a seasonal earnings-surprise measure. These are compared with a small screened subset of formulaic price--volume signals. The original empirical design uses paired information sets: A contains price--volume signals, B adds fundamentals, and C contains fundamentals alone.
+
+The study asks three questions. First, does residual reconstruction consistently improve upon conventional financial ratios? Second, do fundamentals add useful information within regularized or nonlinear return-prediction models? Third, can a simple fundamental ranking achieve competitive economic performance once weighting, turnover, costs, and financial-information timing are considered? The third question becomes central because the most competitive observed candidate is a direct rank composite rather than a learned return forecast.
+
+Prior work motivates the comparisons without determining their outcome. Gu, Kelly, and Xiu \cite{gkx} compare machine-learning methods for asset-pricing prediction and emphasize the potential value of nonlinear interactions. Kakushadze \cite{wq} provides explicit formulaic signals that serve as our price--volume candidate vocabulary. Novy-Marx and Velikov \cite{nmv} motivate distinguishing entry and retention thresholds when trading costs matter. We adapt these ideas to the supplied daily data; we do not reproduce their published portfolios or claim comparable information sets.
+
+The principal finding is that portfolio construction explains much of the initial gap to SPY. A capitalization-weighted portfolio of the same supplied universe earns approximately 22.08\%, whereas its equal-weight counterpart is materially weaker. A six-factor score with square-root-capitalization weights achieves 23.34\%, but its apparent advantage is small, uncertain, and sensitive to assumptions. More elaborate score fusion does not improve the subsequent evaluation period.
+
+Two distinctions govern interpretation throughout the report. Chronological predictions are made with labels available before each fit, but the historical evaluation period has already been inspected during research. Moreover, the supplied accounting data are not a complete historical point-in-time archive. The final strategy is therefore a transparent retrospective candidate, not evidence of an untouched-test discovery or a fully verified live implementable alpha.
+\clearpage
+
+\section{Data, Universe, and Information Boundaries}
+\subsection{Sample and data lineage}
+The study uses a locally supplied US equity dataset containing CRSP-derived market observations, Compustat-derived financial statements, security identifiers, and benchmark series. Monetary portfolio accounting is in US dollars, and session alignment follows the New York Stock Exchange calendar. Raw source files are retained separately from the derived daily panels. The analysis uses the supplied institutional extract for research; redistribution of underlying observations is not assumed to be permitted.
+
+The complete aligned panel contains 3,018 sessions over 2014--2025 and a union of 4,366 security identifiers. The extra 2014 history supports backward-looking features; supervised training begins in 2015. The union is not the daily investment universe. During 2015--2025, daily supplied membership ranges from 1,833 to 2,292 securities, with a median of 2,086 (Figure~\ref{fig:universe}). Consequently, an earlier ambition of more than 4,000 simultaneously eligible stocks is not supported by these data.
+\fig{universe}{0.95}{Daily supplied universe membership during 2015--2025. The number of unique identifiers across the entire panel is larger than the number eligible on any date.}
+
+\subsection{Comparability and unresolved source limitations}
+All paired model comparisons share the supplied universe and require at least one observed selected price--volume characteristic. The fundamental composite retains this common sample, although price--volume values do not enter its score. Capitalization-weighted comparisons additionally require finite positive signal-date market capitalization. No security is selected according to whether a future return label will subsequently be observed.
+
+Historical membership export rules and complete security-type lineage are unavailable. The data also lack a complete independent terminal-settlement source ledger. Financial statements are latest downloaded vintages with field-specific availability mappings, rather than a full archive of contemporaneously published revisions. These limitations are substantive and are not repaired by internal consistency tests. Results are conditional on the supplied universe, adjustment mappings, and availability conventions.
+\clearpage
+
+\subsection{Decision time, execution, and target maturity}
+Let $T$ denote a signal session and $P^*_{i,T}$ the adjusted closing mark. The supervised target is
+\begin{equation}
+y_{i,T}=\frac{P^*_{i,T+11}}{P^*_{i,T+1}}-1.
+\label{eq:target}
+\end{equation}
+The offsets refer to exchange sessions, not calendar days. There are exactly ten close-to-close intervals between entry and exit. A signal uses information available by the close of $T$, trades at the close of $T+1$, and a new holding first earns a close-to-close return on $T+2$. A closing feature therefore does not receive an infeasible same-close execution.
+
+Missing endpoint prices and discontinuous adjustment segments invalidate a target. The last eleven signal sessions are censored because their targets have not matured within the dataset. Labels are used for prediction research and screening; portfolio profit and loss comes from actual held weights and marked returns, rather than from treating overlapping ten-day labels as daily returns.
+
+The development period is 2015--2021: 2015--2018 sets factor directions, and 2019--2021 checks stability and redundancy. The year 2022 is used for the original validation decisions. Learned models are freshly refitted every half-year using all eligible history since 2015 and only labels whose exact ending session is strictly earlier than the forecast period. Table~\ref{tab:training} reports the common evaluation training windows.
+\resulttable{training}{Expanding training windows for the original learned models.}{Counts refer to common eligible, observed-feature training rows with finite mature targets, not the number of independent observations. Ten-day labels overlap.}
+
+At a forecast origin $\tau$, an admissible training row must satisfy $T\geq 2015$, $T<\tau$, and $T+11<\tau$ in exchange-session indexing. This is a maturity restriction, not a random row split. Cross-sectional ranks use only the contemporaneous eligible cross-section. No future sample moments are used for feature scaling.
+
+The direct fundamental composite has no fitted return-prediction coefficients and no half-year return-model retraining. Its construction nevertheless includes daily financial cross-sectional regressions and historically determined factor signs. It is therefore a systematic model with specific design choices, not a parameter-free or selection-free benchmark.
+\clearpage
+
+\section{Signal Construction and Economic Interpretation}
+\subsection{Six fundamental characteristics}
+The residual characteristics measure financial strength relative to another contemporaneous firm attribute. For a monetary quantity in dollars, define
+\begin{equation}
+g(x)=\operatorname{sign}(x)\log\left(1+\frac{|x|}{10^6}\right).
+\end{equation}
+For each session, we fit an intercept and slope on finite eligible pairs and retain the residual:
+\begin{equation}
+g(A_{i,T})=a_T+b_Tg(B_{i,T})+\varepsilon_{i,T}.
+\label{eq:residual}
+\end{equation}
+At least 30 observations are required. The dollar-million convention matters because the signed-log transformation is not invariant to monetary units. Negative financial values are retained when the transformation and data support them.
+
+\begin{table}[H]\centering\small
+\caption{Implemented fundamental definitions.}\label{tab:definitions}
+\begin{tabularx}{\textwidth}{l X c}\toprule Signal & Construction & Fixed sign\\\midrule
+F1 & TTM net-income residual relative to market capitalization & $+1$\\
+F2 & Book-equity residual relative to market capitalization & $-1$\\
+F3 & Quarterly-sales residual relative to market capitalization & $-1$\\
+F4 & Quarterly-net-income residual relative to book equity & $+1$\\
+F5 & TTM free cash flow divided by market capitalization plus total liabilities less cash & $+1$\\
+F6 & Seasonal earnings surprise divided by market capitalization strictly before release & $+1$\\\bottomrule
+\end{tabularx}\end{table}
+
+F5 uses operating cash flow less capital expenditure and masks nonpositive denominators and SIC2 industries 60--69 at the factor level. It does not eliminate financial firms from the full study. The denominator is a documented source-specific enterprise-value proxy, not a claim of universal valuation equivalence.
+
+For F6, expected quarterly income is the income from the same quarter one year earlier plus the average of the preceding eight year-on-year dollar changes. All twelve required preceding quarters must have been available before the new release. The surprise becomes usable under the mapped post-release availability convention, and its normalization retains the last market capitalization strictly before release.
+
+Signs are fixed using 2015--2018 average RankIC. In particular, F2 and F3 have negative signs; the composite should not be described as uniformly buying firms with stronger positive accounting residuals. The six definitions originate in the team's documented adaptations of three brokerage research ideas. Their original PDFs were not available for independent source verification; this report claims numerical reproduction of the stated definitions, not exact replication of those publications.
+
+All six fundamental definitions are retained as the fixed research family; the subsequent WQ screening thresholds do not determine membership of this family. Weak stability-period statistics for individual fundamentals are reported rather than used for evaluation-driven deletion.
+\clearpage
+
+\subsection{Price--volume screening and descriptive evidence}
+We implement 36 supported formulaic candidates from the vocabulary in \cite{wq}, rather than all 101. Direction is determined on 2015--2018. Stability screening on 2019--2021 requires a signed mean RankIC of at least 0.01, at least 50\% eligible coverage, and positive signed RankIC in at least two stability years. Redundancy is removed using a maximum absolute mean daily rank-correlation threshold of 0.8. The retained signals are WQ040, WQ019, and WQ026; WQ006 is excluded because of its approximately 0.801 correlation with WQ040. An 80\% coverage diagnostic leaves the pre-deduplication passing set unchanged.
+
+WQ019 combines a short price-change sign with a longer return-history ranking; WQ026 measures an extreme of rolling high-price/volume rank correlation; WQ040 combines high-price volatility ranking with high-price/volume correlation. Their economic interpretations concern reversal, participation, and volatility interaction. Their use with delayed ten-day targets is an adaptation of the original short-horizon vocabulary.
+\resulttable{factor_statistics}{Signed single-factor diagnostics, with directions fixed before 2022.}{RankIC is the equal-date mean of contemporaneous cross-sectional Spearman correlations with mature forward targets. Coverage is relative to eligible finite-target pairs. These statistics do not measure funded portfolio returns.}
+\fig{correlation}{0.68}{Mean pairwise daily rank correlations over 2019--2021. F1--F6 correspond to Table~\ref{tab:definitions}. Pairwise finite samples are used; the matrix is descriptive, not a covariance estimate for portfolio optimization.}
+\clearpage
+
+\section{Forecast Models, Validation, and Selection}
+The original model experiment compares A (three selected price--volume signals) with B (A plus six fundamentals) within Ridge, Lasso, and XGBoost. Inputs are contemporaneous eligible percentile ranks centered at 0.5, accompanied by missing-value indicators. Missing ranks are set to zero. A and B share training dates, row eligibility, targets, random seeds, and family-specific hyperparameters; financial missingness does not silently change B's training universe.
+
+Ridge shrinks all coefficients and provides a stable linear baseline for correlated signals. Lasso can impose sparsity, but the small signal set makes excessive shrinkage a plausible failure mode. Shallow boosted trees allow interactions while restricting depth and complexity. These are competing modeling assumptions, not an ordering in which the more flexible estimator is expected to win.
+
+\begin{table}[H]\centering\small\caption{Original small validation grids and frozen choices.}\label{tab:parameters}
+\begin{tabularx}{\textwidth}{l X l}\toprule Family & Candidates & Selected\\\midrule
+Ridge & Per-sample penalty $\{0.001,0.01\}$; actual penalty equals coefficient times training row count & 0.01\\
+Lasso & Penalty $\{0.0001,0.0005\}$ & 0.0005\\
+XGBoost & Tree depth $\{2,3\}$; 120 trees, learning rate 0.05 & Depth 2\\\bottomrule
+\end{tabularx}\end{table}
+
+Hyperparameters maximize 2022 A-group daily RankIC, subject to sufficient defined-correlation days, and are then reused for B. The original execution grid compares score-smoothing windows 1/3/5/10 and daily/five-session rebalancing by Ridge A net Sharpe, selecting no smoothing and five-session rebalancing. XGBoost fixes subsampling at 0.8, minimum child weight at 100, regularization at 10, and seed 5205. Ridge and Lasso use the same deterministic seed conventions where applicable.
+
+A subsequent restricted implementation study compares raw/rank training targets, no buffer/a 150-rank buffer, and five/ten-session rebalancing. Its reused-2022 A-only active-IR rule selects raw targets, the buffer, and ten-session rebalancing. The final composite adopts this trading convention, but the square-root-capitalization weighting is nominated after the subsequent historical comparisons. These are distinct decisions with distinct evidential status.
+
+The final study freezes the nominated six-factor composite before its confirmation replay. This reproduces a previously observed result and cannot restore an untouched holdout. The term \emph{final candidate} means the strategy emphasized for interpretation and reproducibility, not a claim that all its design choices were selected exclusively in 2022. Complete attempt records remain available outside the abbreviated narrative.
+\clearpage
+
+\section{From Scores to Positions and Net Returns}
+For fundamental $k$, let $d_k\in\{-1,1\}$ be its fixed sign, and let $R_T$ denote an average-tie percentile rank among eligible finite values. Define
+\begin{equation}
+z_{i,k,T}=\begin{cases}R_T(d_k f_{i,k,T})-0.5,&f_{i,k,T}\text{ observed},\\0,&\text{otherwise},\end{cases}
+\qquad S_{i,T}=\frac{1}{6}\sum_{k=1}^6 z_{i,k,T}.
+\label{eq:composite}
+\end{equation}
+Zero denotes a neutral missing contribution; the denominator remains six rather than changing with coverage. Rankings are formed on the common eligible sample, with positive finite capitalization required for the allocation comparison. No return forecast is fitted for $S$.
+
+On a scheduled signal date, incumbent positions known at that signal date are retained if their new rank is no worse than 150. Remaining slots are filled in descending score order to approximately 100 names. Ties use a stable SHA256 ordering of seed 5205 and security identifier. An entirely constant score carries no ordering information and targets cash. The retention rule uses known holdings, rather than changing the selected list after seeing next-session tradability.
+
+Within the selected set, unconstrained weights are proportional to the square root of signal-date market capitalization. A water-filling allocation imposes a 2\% target per-name cap; any infeasible residual remains cash. This cap applies when targets are formed. It does not force daily clipping of drifted or locked holdings, so actual weights can exceed 2\% between executable rebalances.
+
+All results use a long-only, unlevered, self-financing close ledger. Cash earns zero. Unfillable buys stay cash; unsellable positions remain held; the engine does not replace them with names chosen using future quotes. Missing marks are held at the last observed mark pending a same-segment quote. Documented terminal source returns take precedence when available; otherwise a last-mark cash-settlement assumption is recorded as an exception.
+
+Let $w^-_{i,t}$ be the beginning-of-return-period weight and $q_t$ the total absolute traded notional relative to the preceding closing wealth. Daily accounting satisfies
+\begin{equation}
+r^{\mathrm{gross}}_t=\sum_i w^-_{i,t}r_{i,t},\qquad
+c_t=\frac{b}{10^4}q_t,\qquad r^{\mathrm{net}}_t=r^{\mathrm{gross}}_t-c_t.
+\end{equation}
+Both purchases and sales are charged at the scenario's rate $b$ basis points per traded dollar. The reported turnover is $q_t/[2(1+r^{\mathrm{gross}}_t)]$, expressed relative to wealth immediately before trading. It is not substituted directly into the cost formula. Each evaluation starts from cash, enters at the first scheduled next-close trade, and attempts terminal liquidation. Compounding includes entry and exit costs.
+
+SPY uses the supplied adjusted total-return close series over the aligned investment interval. Same-universe allocation benchmarks rebalance every ten sessions, pay the same costs, and use equal, square-root-capitalization, or capitalization weights without the strategy's per-name target cap. They are allocation diagnostics, not reconstructions of historical SPY constituents.
+
+For $n$ daily net returns, the reported conventions are
+\begin{equation}
+\mathrm{CAGR}=\left[\prod_{t=1}^n(1+r_t)\right]^{252/n}-1,\quad
+\sigma_{\mathrm{ann}}=\sqrt{252}\,s(r),\quad
+\mathrm{Sharpe}=\sqrt{252}\,\frac{\bar r}{s(r)}.
+\end{equation}
+Here $s(r)$ is the sample standard deviation. Maximum drawdown is the minimum wealth-to-running-peak ratio less one, with initial wealth included in the peak.
+\clearpage
+
+\section{Do Fundamentals Improve Learned Forecast Portfolios?}
+The original matched comparisons deliver only small differences between A and B (Table~\ref{tab:original_models}). At 10bps and the original five-session trading rule, Ridge improves from 8.25\% to 8.51\%, while XGBoost improves from 9.49\% to 9.83\%. These are much smaller than the gap to SPY. The results do not support a general claim that adding accounting characteristics materially improves this model specification.
+\resulttable{original_models}{Original frozen A/B model comparisons during 2023--2025.}{A contains three WQ signals; B adds six fundamentals. Each pair shares its family parameters, sample protocol, and five-session equal-weight execution. These inherited model comparisons are separate from the final candidate's ten-session capitalization-based allocation.}
+
+Lasso A and B have identical returns. Inspection of the fitted coefficients shows that all factor-value coefficients are zero; the observed ranking until 2025H1 is explained by a negative WQ019 missingness coefficient. The final half-year is constant and targets cash. Thus, Lasso's numerical return is not evidence that its fundamental component helps, or that a sparse financial forecasting mechanism has been discovered. This diagnostic is retained because an aggregate performance table alone could otherwise be misleading.
+
+The implementation refinement substantially reduces turnover, but does not uniformly improve returns (Table~\ref{tab:implementation}). Ridge A's net CAGR is nearly unchanged, while Ridge B improves to 11.62\%. Lower costs can be offset by weaker or slower stock selection; a decrease in turnover is therefore not sufficient evidence of increased forecast value.
+\resulttable{implementation}{Representative implementation comparison: original versus buffered Ridge.}{Buffered portfolios use the 150-rank retention band and ten-session execution, with equal allocation and the same saved Ridge predictions. The differences jointly change buffer and frequency; they are not separate causal estimates of each mechanism.}
+
+An additional feature study appends twelve-to-one-month momentum, negative 63-session volatility, log capitalization, and log average 20-session dollar volume, together with missing flags. Expanded A$'$ earns 19.37\% and expanded B$'$ 14.42\%, but their volatility and drawdowns are higher than those of the final fundamental composite. These comparisons show that feature expansion can alter the risk--return profile, without demonstrating that fundamentals consistently add value to the expanded learner.
+\clearpage
+
+\section{Allocation Explains a Large Benchmark Gap}
+The supplied opportunity set can generate very different returns under different allocations. Table~\ref{tab:pool_comparison} applies equal, square-root-capitalization, and capitalization weights to the same eligible pool with the same ten-session scheduling, next-close timing, and 10bps cost. Its capitalization-weighted version approaches SPY's return even without a fundamental ranking.
+\resulttable{pool_comparison}{Matched-universe allocation benchmarks, 2023--2025.}{Turnover is the mean daily half-absolute traded notional. Pool portfolios include all currently qualified positive-capitalization names, without the strategy's 2\% target cap.}
+
+The implication is narrower than saying that weighting alone explains all strategy performance. SPY has different constituents and concentration, and the supplied universe has unresolved membership lineage. Nevertheless, the pool experiment demonstrates that equal-weight model portfolios should not be interpreted solely through their gap to a capitalization-weighted market ETF. Allocation and opportunity-set effects must be distinguished from signal quality.
+
+The same distinction applies to the fundamental score. Its equal-weight portfolio earns 21.04\%, its capitalization-weighted portfolio 22.86\%, and its square-root-capitalization portfolio 23.34\%. Square-root weighting offers an intermediate exposure to size while avoiding the full concentration of direct capitalization weights. However, that economic rationale does not establish that the particular exponent is optimal or that its historical advantage will persist.
+
+Validation evidence is not uniformly favorable to the final weighting: in 2022, the capitalization-weighted fundamental portfolio earns approximately $-13.67\%$, versus $-14.41\%$ for square-root weights and $-18.56\%$ for equal weights. Consequently, the final square-root variant cannot be presented as the unique winner of a validation-only allocation rule. It is a retrospective research nomination among explicitly reported alternatives.
+
+The final return advantage over the matched capitalization pool is approximately 1.26 percentage points of CAGR, and the advantage over SPY is approximately 0.47 points. Both are small relative to the dispersion across implementation choices and the uncertainty discussed below. No benchmark is removed because it performs well.
+
+Earlier broad exploratory tables used five-session pool rebalancing. The compact final study standardizes these pool comparisons to ten sessions; its 22.08\% capitalization-pool CAGR therefore differs slightly from the earlier 22.02\% diagnostic. The final manuscript uses the matched ten-session result consistently.
+\clearpage
+
+\section{Performance of the Final Fundamental Candidate}
+Table~\ref{tab:final_comparison} summarizes the nominated strategy and representative alternatives. During 2023--2025, the final candidate earns 23.34\% net CAGR, with 16.14\% annualized volatility, a 1.381 Sharpe ratio, and a $-20.78\%$ maximum drawdown. SPY earns 22.86\%, with 15.34\% volatility, a 1.419 Sharpe ratio, and a $-18.76\%$ drawdown. Higher CAGR alone does not make the candidate superior on all risk criteria.
+
+\resulttable{final_comparison}{Final candidate and representative alternatives, 2023--2025.}{All shown portfolios pay 10bps per traded dollar. Fundamental and expanded-model strategies use ten-session buffered selection; allocation differs as labeled. Expanded-model A$'$/B$'$ remain equal weighted. Sharpe uses zero cash interest and 252-session annualization.}
+\fig{wealth_drawdown}{0.96}{Aligned net wealth and drawdown paths. All strategy and pool paths begin from cash under the same evaluation ledger; SPY begins at the aligned investment close. Drawdowns include initial wealth of one in the running peak.}
+\clearpage
+
+\subsection{Annual stability, concentration, and style exposure}
+The candidate's advantage is not uniform across years (Table~\ref{tab:annual}). It lags SPY in 2023 and 2025 and outperforms in 2024. The rolling relative-return path likewise changes sign. This pattern argues against treating the three-year point estimate as evidence of a stable annual premium.
+\resulttable{annual}{Calendar-year net returns for the final candidate and SPY.}{Annual returns come from the continuously held 2023--2025 portfolio; positions are not reset each January. The first evaluation year includes initial entry and the final year includes liquidation costs.}
+\fig{annual_rolling}{0.96}{Annual total returns and trailing 252-session compounded relative wealth return, $\prod(1+r_{C,t})/(1+r_{SPY,t})-1$. Relative wealth is distinct from subtracting two independently annualized CAGRs.}
+
+The average effective number of positions is approximately 71.3, despite a nominal target near 100. The largest positive contributor accounts for about 8.05\% of the sum of positive stock dollar contributions; the largest five account for 18.07\% and the largest ten for 26.65\%. These denominators exclude negative contributors and fees. They measure concentration of realized stock profits, not concentration of benchmark-relative alpha.
+
+Stock dollar profit is calculated as beginning-of-period weights times asset returns times preceding net portfolio wealth, then summed over time. Aggregate stock profit is approximately 0.8876 per unit of initial capital, fees subtract 0.0177, and net cumulative profit is approximately 0.8699. This decomposition reconciles with the wealth path. Removing historical winners' additive contributions is not treated as a new tradable backtest.
+
+The supplied Barra-style diagnostic uses nine available style dimensions and historical industry proxies. It is not the proprietary Barra model, and Growth is unavailable. Unexplained residual components are not interpreted as certified alpha. The supplementary exposure plot in Appendix~\ref{app:reproduction} describes the same final candidate's held exposures and does not influence nomination.
+\clearpage
+
+\section{Robustness: Signal Ablation and Implementation Stress}
+\subsection{Leave-one-factor-out evidence}
+For each fundamental characteristic, we remove its score contribution and re-average the remaining five, holding the sample, weighting, retention band, trading schedule, and cost fixed. The complete six-factor reference is included in each phase. This is an ablation of the composite, not a refit of a forecasting model.
+\fig{ablation}{0.96}{Fixed-rule leave-one-factor-out portfolios. The complete composite is shown alongside each five-factor variant in both phases. The signs and definitions remain frozen; the evaluation outcomes do not trigger factor deletion.}
+\resulttable{ablation}{Fundamental-composite ablation in validation and evaluation.}{Change is the annualized return difference relative to the complete six-factor composite within the same phase. Values are point estimates, not independent significance tests.}
+
+Every deletion reduces the 2023--2025 CAGR, which is consistent with joint usefulness of the complete score in this sample. The validation year is less supportive: deleting F2 improves its annualized return substantially, whereas deleting F2 later reduces it. Therefore, these ablations do not establish stable independent alpha for all six characteristics. They also do not justify selecting a different factor subset after observing the evaluation results.
+\clearpage
+
+\subsection{Transaction costs and financial-availability delays}
+The final candidate's low turnover reduces cost sensitivity relative to the learned portfolios, but its small benchmark advantage remains fragile. Raising the rate from 10bps to 20bps lowers net CAGR from 23.34\% to 22.83\%, slightly below SPY. At 30bps it falls to 22.32\%. Each scenario reruns the full wealth and trading ledger; the calculation does not subtract a linear fee estimate from the reported CAGR.
+\resulttable{stress}{Cost and information-availability stress for the final candidate.}{Delay scenarios retain the 10bps rate. SPY's aligned annualized return is 22.86\%; no additional repeated trading fee is imposed on the buy-and-hold benchmark.}
+\fig{stress}{0.96}{Separate transaction-cost and availability-delay sensitivities. The dashed line is SPY. These one-dimensional stresses do not imply that their effects can be added linearly.}
+
+For information timing, each financial field's mapped availability is delayed by five or twenty actual exchange sessions, followed by reconstruction of the accounting variables and signals. This is more informative than shifting an already computed factor: contemporaneous capitalization remains current, and the original release event and pre-release capitalization normalization of earnings surprise are preserved. The five-session scenario reduces CAGR to 22.65\%; twenty sessions reduce it to 21.77\%.
+
+These results quantify sensitivity to the mapping assumptions. They do not establish that the original availability dates are wrong, and a conservative delay cannot reverse the use of latest financial vintages into a genuine historical point-in-time archive. Market impact, bid--ask variation, execution capacity, and fixed commissions are not modeled. The constant-basis-point specification is a transparent classroom implementation assumption rather than a comprehensive capacity model.
+\clearpage
+
+\section{Representative Extension: Score-Level Fusion}
+The final extension tests whether a separately estimated price--volume score can complement the fundamental composite more effectively than simply adding financial inputs to a return model. Let $P$ be the saved expanded A$'$ Ridge prediction. On the common finite cross-section, the combined score is
+\begin{equation}
+S^{(\lambda)}_{i,T}=(1-\lambda)R_T(S_{i,T})+\lambda R_T(P_{i,T}),
+\qquad\lambda\in\{0,0.25,0.5\}.
+\end{equation}
+The experiment fixes Top100, the 150-rank buffer, ten-session rebalancing, square-root-capitalization weights, and the target cap. It tests 0/5-session extra financial delays and 10/20/30bps costs. No price model is refitted for fusion, and missing predictions do not additionally shrink the baseline opportunity set in this dataset.
+
+The reused-2022 selection rule maximizes the worst net active IR against the matching pool-cap benchmark across the six delay/cost scenarios, with average IR and then smaller $\lambda$ as tie breaks; average cash must not exceed 5\% in any scenario. It selects $\lambda=0.25$. This rule is frozen before that experiment's evaluation replay, but the dates had already been observed in earlier research.
+\fig{fusion}{0.96}{Baseline-timing, 10bps fusion returns by phase. The dotted line marks the reused-validation selection, $\lambda=0.25$. The evaluation result is not used to relabel another weight as the validation winner.}
+\resulttable{fusion}{Fusion performance at baseline timing and 10bps, 2023--2025.}{All three rows use the same portfolio construction; only the relative score weights differ. The complete stress grid is preserved in the accompanying experiment records.}
+
+In evaluation, the selected fusion reduces net CAGR to 20.30\%, while $\lambda=0.5$ yields 17.06\%. The corresponding mean daily turnover rises from 0.82\% to 4.16\% and 5.80\%. Gross CAGR also falls, so transaction costs are only part of the deterioration. Both nonzero weights underperform their corresponding pure-fundamental controls in all six evaluation stress scenarios. This is negative evidence for this particular mixture, not proof that price information is universally unhelpful.
+\clearpage
+
+\section{Uncertainty and the Meaning of a Small Advantage}
+We evaluate paired daily net-return series on common sessions rather than treating different strategy histories as independent samples. Circular block bootstrap resampling preserves local temporal dependence and the pairing between comparator and candidate. We use 2,000 resamples, seed 5205, and blocks of 10, 20, and 40 sessions. These intervals describe the observed return paths conditional on the research choices; they do not correct for all historical strategy searching or uncertain data provenance.
+\resulttable{intervals}{Candidate-minus-comparator CAGR differences and 95\% paired bootstrap intervals.}{This table uses 20-session blocks. Differences are percentage points of independently compounded annualized returns computed within each paired resample. The candidate is the fundamental square-root-capitalization portfolio.}
+\fig{intervals}{0.96}{Paired 95\% block-bootstrap intervals for the candidate's CAGR difference. The zero line indicates no difference. The width of the intervals is material relative to the candidate's small advantage over SPY and the pool-cap benchmark.}
+
+For SPY, the point difference is approximately $+0.47$ percentage points, whereas the 20-session interval spans approximately $[-8.34,+11.69]$ points. It is therefore inappropriate to claim a statistically established improvement. Results at alternative block lengths lead to the same qualitative caution. Sharpe annualization uses the conventional square-root-of-252 rule and a zero risk-free rate; it is reported as a common descriptive convention, not an assertion of serially independent returns.
+
+The candidate performs better in CAGR than the tested score fusions, but most corresponding difference intervals also contain zero. Higher-cost fusion scenarios supply some stronger negative evidence, yet selecting isolated significant comparisons from a larger grid would overstate the result. We report the complete grids and avoid inferring broad superiority from a subset of intervals.
+
+Model selection uncertainty is distinct from return-sampling uncertainty. The final candidate was emphasized after multiple historical comparisons, and no fresh blind sample remains within the supplied date range. Replaying the same years can verify accounting and reproducibility; it cannot provide an independent confirmation of the selection decision.
+\clearpage
+
+\section{Interpretation and Limitations}
+The strongest supported conclusion concerns research design: signal quality, allocation, and implementation cannot be inferred from a single headline return. The capitalization-weighted same-universe benchmark already approaches SPY, the buffer lowers turnover without guaranteeing a net improvement, and adding fundamentals to a learner does not consistently improve its economic result. These observations explain why the transparent composite is emphasized despite the availability of more complex estimators.
+
+Residual reconstruction is also not uniformly superior to traditional ratios. Appendix~\ref{app:reproduction} reports matched stability-period comparisons for the four residual families. Reconstruction changes the economic question from absolute ratio strength to strength conditional on another variable, and the empirical sign may reverse. Neither transformation should be regarded as universally preferable because of its mathematical sophistication.
+
+Several limitations restrict economic claims. First, universe membership rules, historical security-type eligibility, and independent identity/link sources are incomplete. The results are conditional on the provided pool and cannot certify absence of survivorship or selection effects. Second, latest financial vintages may contain revisions unavailable in historical real time. Field-level date checks, strict earnings-surprise history, and delay stresses improve internal timing discipline but do not prove full point-in-time correctness.
+
+Third, some terminal payoffs cannot be independently recovered. The ledger records stale and terminal assumptions, prioritizes usable terminal source returns, and prevents future-quote substitution. Correct implementation of those policies does not establish the economic truth of every unresolved settlement. Fourth, the 2\% cap is a formation target; actual holdings can drift above it. A portfolio with approximately 100 names can also have substantially fewer effective positions.
+
+Fifth, the study uses security-level capitalization rather than a fully aggregated multi-class issuer valuation. The financial definitions are US-data adaptations of team-documented brokerage ideas, whose original source PDFs were unavailable for independent verification. Some source ideas postdate the backtest period, reinforcing the retrospective status of the exercise. The analysis should not be described as a historically deployed strategy.
+
+Finally, the final weighting and research emphasis were chosen after observing historical outcomes. The complete experiment record includes unsuccessful models and variations, while the manuscript retains representative comparisons. This editorial reduction does not erase multiple testing. A claim of robust predictive advantage would require better source provenance, realistic execution evidence, and independent subsequent evaluation under a frozen protocol.
+\clearpage
+
+\section{Conclusion}
+This study reconstructs six financial characteristics, compares them with screened price--volume signals, and follows their information through a delayed-execution portfolio ledger. Within the original paired forecasting models, fundamental additions produce small and model-dependent changes. Implementation and capitalization exposure account for much of the performance difference relative to a market ETF.
+
+The final research candidate is the six-factor signed-rank composite with Top100 selection, a 150-rank retention band, ten-session rebalancing, and capped square-root-capitalization targets. It achieves 23.34\% net CAGR in the observed 2023--2025 period at 10bps per traded dollar. This is the strongest return point estimate among the representative tested strategy specifications, but it does not dominate SPY in Sharpe ratio or drawdown. Its small return advantage is statistically uncertain and disappears under modest cost or information-delay stress.
+
+The score-fusion extension offers a useful counterexample to assuming that additional information automatically improves a strategy. Reused validation favors a positive price-score weight, yet later performance, turnover, and risk deteriorate. We therefore retain the simple composite as the final candidate while preserving the unsuccessful fusion results and the distinction between retrospective nomination and untouched-test selection.
+
+The empirical contribution is a transparent comparison and a reproducible accounting of what the available data can support. It is not evidence of a production-ready alpha or a general rejection of learned financial models. The supported practical lesson is to evaluate modeling complexity jointly with allocation, trading costs, and information provenance.
+
+\begin{thebibliography}{9}
+\bibitem{gkx} Gu, S., Kelly, B., and Xiu, D. (2020). Empirical asset pricing via machine learning. \emph{Review of Financial Studies}, 33(5), 2223--2273. Working-paper record: \url{https://www.nber.org/papers/w25398}.
+\bibitem{wq} Kakushadze, Z. (2016). 101 formulaic alphas. \emph{Wilmott}, 2016(84), 72--80. \url{https://arxiv.org/abs/1601.00991}.
+\bibitem{nmv} Novy-Marx, R., and Velikov, M. (2014). A taxonomy of anomalies and their trading costs. NBER Working Paper 20721. \url{https://www.nber.org/papers/w20721}.
+\end{thebibliography}
+\clearpage
+
+\appendix
+\section{Supporting Evidence and Reproducibility}\label{app:reproduction}
+\resulttable{ratios}{Residual versus traditional-ratio signed RankIC, 2019--2021.}{Each pair uses its common valid sample and the previously fixed direction. These development diagnostics do not establish a general advantage for residual reconstruction.}
+\fig{styles}{0.83}{Mean held style exposures of the final candidate in the available nine-style diagnostic. Model units are based on the supplied capitalization-centered risk system. Growth is unavailable, and this is not a proprietary Barra attribution.}
+
+The compact study is configured in \path{configs/project2_final.json}. Its entry point is \path{src/usq/project2/final_study.py}; factor definitions are shared with \path{factors.py}, and position selection and allocation use \path{research_portfolio.py} and the shared close ledger. The final replay reconstructs all six fundamental factors and verifies their equality to the earlier versions, then replays the representative portfolios. Forecast-model comparisons reuse audited, chronologically fitted predictions; the final direct score itself has no fitted return predictor.
+
+From the repository root, the recorded-data replay and independent check are:
+\begin{quote}\small\ttfamily
+PYTHONPATH=src python -m usq.project2.final\_study\\
+PYTHONPATH=src python scripts/verify\_final\_study.py
+\end{quote}
+The accompanying final-study guide gives environment installation, a standalone nominated-strategy run, source-snapshot construction, and report compilation commands. The full research archive retains the original training and screening entries. Restricted input data are not embedded in the report or assumed publicly redistributable.
+
+\textbf{Team roster and contribution fields.} Wan Gehong; Wang Tianyi; Wu Jiarui; Yan Tianao. Student IDs: \rule{0.65\textwidth}{0.3pt}. Individual contributions: \rule{0.55\textwidth}{0.3pt}. These fields are left blank rather than assigning unverified contributions.
+\end{document}

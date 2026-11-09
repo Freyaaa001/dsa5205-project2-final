@@ -1,0 +1,29 @@
+{
+  "figures": [
+    "ablation.pdf",
+    "annual_rolling.pdf",
+    "correlation.pdf",
+    "fusion.pdf",
+    "intervals.pdf",
+    "stress.pdf",
+    "styles.pdf",
+    "universe.pdf",
+    "wealth_drawdown.pdf"
+  ],
+  "tables": [
+    "ablation.tex",
+    "annual.tex",
+    "factor_statistics.tex",
+    "final_comparison.tex",
+    "fusion.tex",
+    "implementation.tex",
+    "intervals.tex",
+    "original_models.tex",
+    "pool_comparison.tex",
+    "ratios.tex",
+    "stress.tex",
+    "training.tex"
+  ],
+  "results": "results/project2_final",
+  "note": "No returns fitted or selected by the report builder."
+}

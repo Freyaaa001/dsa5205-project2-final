@@ -1,0 +1,8 @@
+{
+  "nominated": "fundamental_sqrt_cap",
+  "status": "retrospective choice after observed historical comparisons; not selected by an untouched validation/holdout",
+  "evaluation_replay_matches_previous": true,
+  "forecast_refits_in_this_run": 0,
+  "fundamental_factors_rebuilt": 6,
+  "selection_uses_previously_observed_evaluation": true
+}

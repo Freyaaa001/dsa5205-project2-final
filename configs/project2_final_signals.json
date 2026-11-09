@@ -1,0 +1,11 @@
+{
+  "status": "Frozen research definitions; historically nominated, not newly selected in standalone execution",
+  "wq": ["WQ040", "WQ019", "WQ026"],
+  "fundamental": ["F01_EP_reconstructed", "F02_BP_reconstructed", "F03_SPQ_reconstructed", "F04_ROEQ_reconstructed", "F05_FCF_yield", "F06_earnings_surprise"],
+  "directions": {
+    "F01_EP_reconstructed": 1, "F02_BP_reconstructed": -1,
+    "F03_SPQ_reconstructed": -1, "F04_ROEQ_reconstructed": 1,
+    "F05_FCF_yield": 1, "F06_earnings_surprise": 1,
+    "WQ040": 1, "WQ019": 1, "WQ026": 1
+  }
+}
