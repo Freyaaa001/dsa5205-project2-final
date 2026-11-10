@@ -10,7 +10,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "65849c202d44085b528a595196d9b632751950d63b60cf3171f2357d9a902446"
+      "sha256": "79776bb0416581278c888da9bfc526ea8fd9a24205faf02a2956513cae25b9c5"
     },
     {
       "path": "RELEASE_CHECKS.json",
@@ -34,11 +34,11 @@
     },
     {
       "path": "reports/final/Group_34_Report.pdf",
-      "sha256": "86506937a089fb1fba945dce7877cc8e079ad5d61c4c081c876fcf4a24eac36c"
+      "sha256": "44dd2c71aa55df2c8cca167801bbb5f3db23ffeb391260a4cfe9d127818e9cdb"
     },
     {
       "path": "reports/final/Group_34_Report.tex",
-      "sha256": "c585cccbdf54a4205b3ac3bc19969d2aacbbf0dadab5686a7141c1dc61281f90"
+      "sha256": "7fdde5ecaecad0f94c5bc5dea30d223ffde919fbd4ce121acd4cbb071795f749"
     },
     {
       "path": "reports/final/asset_inventory.json",

@@ -96,9 +96,9 @@ PYTHONPATH=src .venv/bin/python scripts/build_final_report_assets.py
 cd reports/final && TEXINPUTS=./tex-support: pdflatex -interaction=nonstopmode Group_34_Report.tex
 ```
 
-> The tests cover the label protocol, the buffered selection, the ledger accounting and the final-study entry. The asset script regenerates every table and figure in the report from `results/project2_final/` — the report contains no hand-typed result numbers. Then LaTeX compiles the twenty-page PDF.
+> The tests cover the label protocol, the buffered selection, the ledger accounting and the final-study entry. The asset script regenerates every table and figure in the report from `results/project2_final/`. Then LaTeX compiles the twenty-two-page PDF.
 
-中文提示：录之前先跑一遍，确认 pytest 全绿、PDF 页数为 20。终端字体调大。不要在镜头里展示 data/ 目录的个股文件。
+中文提示：录之前先跑一遍，确认 pytest 全绿、PDF 页数为 22。终端字体调大。不要在镜头里展示 data/ 目录的个股文件。
 
 ## 6. Out-of-sample results (15:30–19:00) — Speaker D
 

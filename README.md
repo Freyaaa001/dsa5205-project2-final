@@ -36,7 +36,7 @@ Only relevant regression tests are included. The original workspace's 144-test s
 
 ## Video
 
-`video/slides.html` is the 30-slide animated deck (open in a browser; arrow keys to move, `n` toggles speaker notes). Slides cross-fade with a push, content rises in sequence, headline numbers count up, figures wipe in, and terminal output appears line by line. Every number on the slides is taken from `reports/final/tables/`; the figures are exported from `reports/final/figures/`.
+`video/slides.html` is the 30-slide animated deck (open in a browser; arrow keys to move, `n` toggles speaker notes). Slides cross-fade with a push, content rises in sequence, headline numbers count up, figures wipe in, and terminal output appears line by line. Every number on the slides is taken from `reports/final/tables/` and `reports/final/numbers.tex`; the figures are exported from `reports/final/figures/`.
 
 `video/build_video.py` renders the deck into an MP4 with synthesized narration on macOS. The deck exposes `seek(slide, ms)`, which freezes every animation at an exact time, so the script screenshots each slide's animated opening frame by frame at 25 fps (Playwright), holds the last frame for the rest of the narration (`say`), and muxes with ffmpeg. Picture and voice are aligned by construction; no screen recording is involved.
 
