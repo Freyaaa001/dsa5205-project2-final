@@ -102,35 +102,39 @@ cd reports/final && TEXINPUTS=./tex-support: pdflatex -interaction=nonstopmode G
 
 ## 6. Out-of-sample results (15:30–19:00) — Speaker D
 
-Screen in order: Table 9 (final comparison), Figure 4 (`wealth_drawdown.pdf`), Table 10 + Figure 5 (annual), Table 8 (pool), Table 12 + Figure 7 (stress), Table 13 + Figure 8 (intervals).
+Screen in order: Table 8 (final comparison), Figure 3 (`wealth_drawdown.pdf`), Table 9 + Figure 4 (annual), Table 7 (pool), Tables 10–12 + Figure 5 (attribution), Table 14 + Figure 7 (stress), Table 16 + Figure 9 (intervals).
 
 > **Headline.** Over 2023–2025, net of 10 bps, the candidate compounds at 23.34% a year, volatility 16.14%, Sharpe 1.381, maximum drawdown −20.78%. SPY over the same window: 22.86%, Sharpe 1.419, drawdown −18.76%. So we beat SPY on return by about half a point, and lose to it on Sharpe and drawdown. Figure 4 shows the wealth and drawdown paths.
 >
-> **Year by year.** Table 10: minus 6.2 points in 2023, plus 8.8 in 2024, minus 0.7 in 2025. The edge is not stable across years.
+> **Year by year.** Table 9: minus 6.2 points in 2023, plus 8.8 in 2024, minus 0.7 in 2025. The edge is not stable across years.
 >
-> **Allocation explains most of the gap.** Table 8: the same pool with no signal at all earns 12.25% equal-weighted, 15.38% sqrt-cap, and 22.08% cap-weighted. Our signal adds 1.26 points over the cap-weighted pool. Equal-weight model portfolios should not be judged only by their distance to a cap-weighted ETF.
+> **Allocation explains most of the gap.** Table 7: the same pool with no signal at all earns 12.25% equal-weighted, 15.38% sqrt-cap, and 22.08% cap-weighted. Our signal adds 1.26 points over the cap-weighted pool. Equal-weight model portfolios should not be judged only by their distance to a cap-weighted ETF.
+>
+> **Attribution.** Table 10 splits the half point over SPY into three matched comparisons. It is an exact identity on stored daily returns, computed after the evaluation period had been seen. Selection, the candidate against the whole pool at the same sqrt-cap weights: +7.96 points a year, information ratio 1.29, interval 0.30 to 16.41. Weighting, the same pool at sqrt-cap instead of cap weights: −6.70 points, because 2023–2025 was led by the very largest companies and a 2% cap cannot hold them at index size. Universe against SPY: −0.78. Selection and weighting almost cancel.
+>
+> **Reading it honestly.** Four qualifications. 18.64 of the selection points fall in 2024, against 1.02 in 2023 and 4.62 in 2025. At cap weights the same ranking adds only 0.78 points (Table 11). The weighting link was +2.16 points in 2022, so its sign flips. And with a 7.27% tracking error, three years need about 8.41 points of annual excess to reach two standard errors (Table 12). The candidate does not beat SPY in a statistical sense; inside its own universe the ranking is associated with higher returns, and the long-only capped construction gave that back through a size position we did not intend.
 >
 > **Learned models.** Adding fundamentals to a learner moved Ridge from 8.25% to 8.51% and XGBoost from 9.49% to 9.83% — tiny. Lasso A and B were identical because every factor coefficient was zero. That is why the final candidate is the simple composite rather than a learned forecast.
 >
-> **Stress.** Table 12: at 20 bps the candidate drops to 22.83%, already below SPY; at 30 bps, 22.32%. A twenty-session delay in financial availability gives 21.77%.
+> **Stress.** Table 14: at 20 bps the candidate drops to 22.83%, already below SPY; at 30 bps, 22.32%. A twenty-session delay in financial availability gives 21.77%.
 >
 > **Ablation.** Removing any one of the six signals lowers 2023–2025 CAGR, by 2.3 to 5.0 points. But in 2022, removing F2 would have helped by over ten points — so we do not claim stable stand-alone alpha for each factor, and we did not use these results to change the set.
 >
 > **Fusion.** Mixing in a ridge price score with weight 0.25 — chosen on 2022 — lowered the 2023–2025 CAGR to 20.30% and raised daily turnover from 0.82% to 4.16%. More information did not help.
 >
-> **Uncertainty.** Paired circular block bootstrap, 2,000 resamples, seed 5205. Table 13: the CAGR difference to SPY is +0.47 points with a 95% interval from −8.3 to +11.7. Every comparator's interval includes zero.
+> **Uncertainty.** Paired circular block bootstrap, 2,000 resamples, seed 5205. Table 16: the CAGR difference to SPY is +0.47 points with a 95% interval from −8.3 to +11.7. Every comparator's interval includes zero.
 
 中文提示：这一段数字最多，照表念，不要即兴换算。
 
 ## 7. What worked, what did not, what we learned (19:00–21:00) — Speaker D
 
-Screen: report §12 and §13.
+Screen: report §13 and §14.
 
 > **What worked.** The pipeline: strict next-close execution, matured-label purging, fixed signs from 2015–2018, one pre-declared selection rule, and a cost ledger that reconciles to the wealth path to the cent. The composite's turnover of under one percent per day makes it cheap to run.
 >
 > **What did not.** Adding fundamentals to learned forecasts did not help. Score fusion looked good in 2022 and failed afterwards. The return advantage over SPY is small, sign-flipping across years, and statistically indistinguishable from zero.
 >
-> **What we learned.** First, allocation and the opportunity set explain most of a strategy's distance to an ETF; compare against a matched-universe cap-weighted benchmark before crediting the signal. Second, lower turnover is not evidence of better forecasts. Third, a validation year can prefer the wrong thing — fusion — so an untouched holdout matters more than a good validation score. Fourth, our data are latest financial vintages, not point-in-time, and membership lineage is incomplete, so we report the result as a transparent retrospective candidate, not a deployable alpha.
+> **What we learned.** First, our half point over SPY was eight points of selection minus seven points of weighting; split a benchmark gap into selection, weighting and universe before crediting or blaming the signal. Second, lower turnover is not evidence of better forecasts. Third, a validation year can prefer the wrong thing — fusion — so an untouched holdout matters more than a good validation score. Fourth, our data are latest financial vintages, not point-in-time, and membership lineage is incomplete, so we report the result as a transparent retrospective candidate, not a deployable alpha.
 
 ## 8. Reproducibility and contributions (21:00–22:00) — Speaker A
 

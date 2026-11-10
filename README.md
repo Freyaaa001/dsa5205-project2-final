@@ -43,7 +43,7 @@ Only relevant regression tests are included. The original workspace's 144-test s
 ```bash
 python3 -m pip install -r video/requirements.txt && python3 -m playwright install chromium
 cd video && python3 build_video.py --dry-run   # word counts and estimated length
-cd video && python3 build_video.py             # writes video/Group_34_Video.mp4 (about 18 min)
+cd video && python3 build_video.py             # writes video/Group_34_Video.mp4 (about 20 min)
 ```
 
 The narration text is in each slide's `<aside class="notes">`; `docs/VIDEO_SCRIPT.md` has the same content as a speaker script for recording a human voice-over.
