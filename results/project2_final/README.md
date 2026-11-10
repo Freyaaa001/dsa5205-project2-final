@@ -4,7 +4,7 @@ These are compact, strategy-level outputs supporting the final manuscript. No or
 
 - `portfolio_summary.csv`: 38 representative portfolio/phase combinations.
 - `portfolios/*/*/daily.csv`: daily strategy-level ledgers, including costs and aligned SPY returns.
-- `tables/`: factor summaries, screening records, common training-window counts, annual returns, paired intervals, correlation, universe counts, and style/concentration summaries.
+- `tables/`: factor summaries, screening records, common training-window counts, annual returns, paired intervals, correlation, universe counts, and style/concentration summaries. `attribution.csv`, `attribution_annual.csv`, `selection_by_weighting.csv` and `capm.csv` are written by `usq.project2.attribution` from the daily ledgers above: the selection/weighting/universe attribution of the candidate's return difference to SPY and market-model diagnostics.
 - `final_strategy.json`: explicitly retrospective nomination of the six-fundamental square-root-capitalization candidate.
 
 From the repository root:

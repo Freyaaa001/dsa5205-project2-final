@@ -2,6 +2,7 @@
   "figures": [
     "ablation.pdf",
     "annual_rolling.pdf",
+    "attribution.pdf",
     "correlation.pdf",
     "fusion.pdf",
     "intervals.pdf",
@@ -13,6 +14,8 @@
   "tables": [
     "ablation.tex",
     "annual.tex",
+    "attribution.tex",
+    "capm.tex",
     "factor_statistics.tex",
     "final_comparison.tex",
     "fusion.tex",
@@ -21,6 +24,7 @@
     "original_models.tex",
     "pool_comparison.tex",
     "ratios.tex",
+    "selection_weighting.tex",
     "stress.tex",
     "training.tex"
   ],

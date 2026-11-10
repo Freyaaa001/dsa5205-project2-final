@@ -14,7 +14,8 @@
 | `src/usq/project2/factors.py` | 共享因子定义、截面回归、WQ算子及超预期事件 |
 | `src/usq/project2/research_portfolio.py`、`ledger.py` | 共享缓冲选股、权重和交易账本 |
 | `scripts/verify_final_study.py` | 独立排名重放、会计核查、历史对照及冻结文件检查 |
-| `scripts/build_final_report_assets.py` | 从实际结果生成LaTeX表格与矢量图 |
+| `src/usq/project2/attribution.py` | 由已存日收益做“选股／加权／股票池”收益归因及市场模型诊断；不拟合、不选择任何策略 |
+| `scripts/build_final_report_assets.py` | 从实际结果生成LaTeX表格与矢量图，并生成正文归因数字所用的`numbers.tex`宏 |
 
 历史`exploration.py`、`deep_dive.py`和`late_fusion.py`属于完整实验档案。最终候选的独立重跑不需要它们的历史输出。保留这些文件是为了可追溯性，而不是要求展示者逐个运行。
 
@@ -66,7 +67,7 @@ PYTHONPATH=src .venv/bin/python scripts/verify_final_study.py
 
 ## 报告生成
 
-`results/project2_final/`包含约4.2MB的汇总数据和策略级日收益，供图表与报告重建；不含个股原始行情、预测或持仓。生成报告图表不再依赖完整`runs/`研究档案。
+`results/project2_final/`包含约4.2MB的汇总数据和策略级日收益，供图表与报告重建；不含个股原始行情、预测或持仓。生成报告图表不再依赖完整`runs/`研究档案。同一命令会由已存日收益重算报告第9节的收益归因（候选−SPY = 选股 + 加权 + 股票池）和市场模型诊断，结果写入`results/project2_final/tables/`的`attribution*.csv`、`selection_by_weighting.csv`、`capm.csv`。该归因是在评估期已被查看之后计算的恒等分解，不参与候选提名。
 
 ```bash
 PYTHONPATH=src .venv/bin/python scripts/build_final_report_assets.py

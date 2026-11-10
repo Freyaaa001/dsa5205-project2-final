@@ -6,15 +6,15 @@
     },
     {
       "path": "Project2_最终版进度.md",
-      "sha256": "13e85ca21c73e2ccb56594b6686351cba38dfee020853a09431d87713e354fdc"
+      "sha256": "389bbaa84ca93f64a2035358b8f5ce37557f8b0c4391159978e75fc74ebf4a36"
     },
     {
       "path": "README.md",
-      "sha256": "32f83260bc86ba1e72e5f6f1009bb00060a07b185c0d2ced6dd8852bb9c339c4"
+      "sha256": "5f7d5c55ceadfd132d0f5d2e3dfa614cc6c1fb7a9627b578df3c3c193899469d"
     },
     {
       "path": "RELEASE_CHECKS.json",
-      "sha256": "1f80e4bca761d0d211c6490ac91dcc31d896474d75d8c173c870d65477133cae"
+      "sha256": "8d9f30d175b8b6530b4bc384480b42808d09df26ebf43aaf0bc68514c54d7085"
     },
     {
       "path": "configs/project2_final.json",
@@ -26,7 +26,7 @@
     },
     {
       "path": "docs/FINAL_STUDY.md",
-      "sha256": "e4a42b29f129790e058ecfc6d1b359ad8b2de6b78acdf792be37fb35ff55a7c7"
+      "sha256": "9397ea582c2c9d82ea0a6940c1c5610d9d49ee8cedf26082e31ef0fde6253b41"
     },
     {
       "path": "pyproject.toml",
@@ -34,15 +34,15 @@
     },
     {
       "path": "reports/final/Group_34_Report.pdf",
-      "sha256": "ab18534455a1db8c427959dea94d82e3322c176f5dc1430e9e8d4c123817322b"
+      "sha256": "86506937a089fb1fba945dce7877cc8e079ad5d61c4c081c876fcf4a24eac36c"
     },
     {
       "path": "reports/final/Group_34_Report.tex",
-      "sha256": "f05fa681ff1ee7beffd0ce77be04f5f2e3797678ef2afc0b212acc590a625a0d"
+      "sha256": "c585cccbdf54a4205b3ac3bc19969d2aacbbf0dadab5686a7141c1dc61281f90"
     },
     {
       "path": "reports/final/asset_inventory.json",
-      "sha256": "f6ff265029af522b3691d9c719a8751806e45e27efb1da8948618245157fabf3"
+      "sha256": "6e1da4e92806f2d8c7cfd4c9fbc40565d1e6199cdb82c16a67c0fb8c74249067"
     },
     {
       "path": "reports/final/figures/ablation.pdf",
@@ -51,6 +51,10 @@
     {
       "path": "reports/final/figures/annual_rolling.pdf",
       "sha256": "73364d9f022e2742d0acd9fb60dd0e0d27c5322fde5903ac9bb3aaf1b4bede1a"
+    },
+    {
+      "path": "reports/final/figures/attribution.pdf",
+      "sha256": "a909dc88e0735f6227ea202dbb9b194c7c68f3bfb556077cf723d3492f189c0c"
     },
     {
       "path": "reports/final/figures/correlation.pdf",
@@ -81,6 +85,10 @@
       "sha256": "a1d9b4fd375c4b78bbe2c8dc99a9c4aa5ea0b192fae81c2f6ac1fa0f33465b7d"
     },
     {
+      "path": "reports/final/numbers.tex",
+      "sha256": "12ba5e5e479c480de4414502f5cff28df8aab699ac47c36082a3d967c14fdf0f"
+    },
+    {
       "path": "reports/final/report-template.original.tex",
       "sha256": "9efd024f398e67b589fddf575563ebc5d7e0350bb7fd7af15d2ca465bab863a0"
     },
@@ -91,6 +99,14 @@
     {
       "path": "reports/final/tables/annual.tex",
       "sha256": "ec01ee805708f6a7f227324c5f01c07493eb96ff62a46f2bcc5b4fb7220c308f"
+    },
+    {
+      "path": "reports/final/tables/attribution.tex",
+      "sha256": "a1222a26715822640bc140414f987ec49ce36dbaa5c5e2b2835ad6768eab9bc1"
+    },
+    {
+      "path": "reports/final/tables/capm.tex",
+      "sha256": "8ef51072de77add7ff3cf90973777f7d794e2064b1a5c92e0bc13c1a2eb4349d"
     },
     {
       "path": "reports/final/tables/factor_statistics.tex",
@@ -125,6 +141,10 @@
       "sha256": "2d36bc2f8254707ce9dd634ab85c63dd570972016a9b734b90238e8198288d6b"
     },
     {
+      "path": "reports/final/tables/selection_weighting.tex",
+      "sha256": "0d60b41e7033ef0c4945de4426fb1063d2b3bc2b8c65cc0fce88e042be733d74"
+    },
+    {
       "path": "reports/final/tables/stress.tex",
       "sha256": "f15e73fe3f3417c12814a4a2883f1aba05622ce51e7021cfa5d6ea38b7d89b76"
     },
@@ -154,7 +174,7 @@
     },
     {
       "path": "results/project2_final/README.md",
-      "sha256": "86b8bfeae20e34bd23ccc9862de5e92d24ac83e5e694de40df9d16cfef6df404"
+      "sha256": "d1307fe89af7c8d4631af1651b826642d86e09ea049a75e454b7d44e592a742e"
     },
     {
       "path": "results/project2_final/final_strategy.json",
@@ -329,6 +349,18 @@
       "sha256": "89b3ef3184f1582dcf88ac76c8e63c775fa52a834730bfd8a4d6166ee59505df"
     },
     {
+      "path": "results/project2_final/tables/attribution.csv",
+      "sha256": "0b52cee523b41e3a47d1f7de4e939c822d9223fb0cbb260657086b22f39714c7"
+    },
+    {
+      "path": "results/project2_final/tables/attribution_annual.csv",
+      "sha256": "054a1aefa10ff1ce336cc1366b2bf10133e4f90bd3eb937e9c586d76ff87ec3e"
+    },
+    {
+      "path": "results/project2_final/tables/capm.csv",
+      "sha256": "4167c75348811087f809de3dca09aad86bbf9c2e283957facca600e43b82e9cd"
+    },
+    {
       "path": "results/project2_final/tables/concentration.json",
       "sha256": "acd6e440927323231ab1197eced7cdb4f997aea0275449d642f4bbac9b0f700f"
     },
@@ -361,6 +393,10 @@
       "sha256": "1679ec56b9ecafb9e89ca031c3b7b8b512bc562f8292c3cf387179e5c51f4be3"
     },
     {
+      "path": "results/project2_final/tables/selection_by_weighting.csv",
+      "sha256": "7aca82a3f1efaebf61a6ba07141dda2347094caaab056ef069df0488d4802b6e"
+    },
+    {
       "path": "results/project2_final/tables/style_exposures.csv",
       "sha256": "903db82255dbf8d734e479ca790642aea28f049c32e97fc8ceb6729cae0629f6"
     },
@@ -378,7 +414,7 @@
     },
     {
       "path": "scripts/build_final_report_assets.py",
-      "sha256": "f2ad20696445c8273fedf8944065484a558e27f63f30b17ae326429ceb42277c"
+      "sha256": "c6297a1e0b57e31f99182498c10a2ad034a57afe899406bf2963e3470bbb10ec"
     },
     {
       "path": "scripts/verify_final_study.py",
@@ -489,6 +525,10 @@
       "sha256": "713a9f397fcf761145c413e60146f22ac737810c67703b1e8a63f0433e78933c"
     },
     {
+      "path": "src/usq/project2/attribution.py",
+      "sha256": "6be6f1fa6cf9d85adbe5d50438f3735ffb5f5f1648ea3b19abb56fd5f753e432"
+    },
+    {
       "path": "src/usq/project2/exploration.py",
       "sha256": "3188759efd0e5653a58bed1bedcffdd88c2590bfebd2bee78d9a6856f64f6107"
     },
@@ -555,6 +595,10 @@
     {
       "path": "src/usq/utils.py",
       "sha256": "393acc2dbe3f8257d18366f9e20137d7141437a6fc37e9ecc1596855e08aebba"
+    },
+    {
+      "path": "tests/test_attribution.py",
+      "sha256": "ed277cd746c3cc6ad0fdabbefc6b0b0de3c5d318f0f109e28702a9709e3b2092"
     },
     {
       "path": "tests/test_close_labels.py",
