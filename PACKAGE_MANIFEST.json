@@ -10,11 +10,11 @@
     },
     {
       "path": "README.md",
-      "sha256": "79776bb0416581278c888da9bfc526ea8fd9a24205faf02a2956513cae25b9c5"
+      "sha256": "ee72402bcaf61376bcb43010be9837b86670732116011f47b1795e7c8515ee0d"
     },
     {
       "path": "RELEASE_CHECKS.json",
-      "sha256": "8d9f30d175b8b6530b4bc384480b42808d09df26ebf43aaf0bc68514c54d7085"
+      "sha256": "212c9be99ed216c402532a48103fb10d005beda1358596ebc75618ce6795cea2"
     },
     {
       "path": "configs/project2_final.json",
@@ -417,6 +417,14 @@
       "sha256": "c6297a1e0b57e31f99182498c10a2ad034a57afe899406bf2963e3470bbb10ec"
     },
     {
+      "path": "scripts/demo_run.sh",
+      "sha256": "db0f982ce763d9e38eab19631f34ea5c220aad8353f7e82026f004b45ed14135"
+    },
+    {
+      "path": "scripts/show_summary.py",
+      "sha256": "42898c993aec13f3773a66313c34f51adb5502f78ecddbb7f45f69a4f05861a3"
+    },
+    {
       "path": "scripts/verify_final_study.py",
       "sha256": "453a6ee2bc2e8efe3e882baa82f251ed9691021b95f07d6b0d53499b1bf34edd"
     },
@@ -627,6 +635,10 @@
     {
       "path": "tests/test_research_portfolio.py",
       "sha256": "b8ec85a4cc3828411043ccf05ba13e6900153a7c5ba360ab8c209612385ad62f"
+    },
+    {
+      "path": "tests/test_show_summary.py",
+      "sha256": "5c877f0aefcc5aded3b78ddfcb09e0168d7283a72d7ec56c458e3d1b9f7e155d"
     }
   ]
 }

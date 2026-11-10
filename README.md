@@ -46,6 +46,8 @@ cd video && python3 build_video.py --dry-run   # word counts and estimated lengt
 cd video && python3 build_video.py             # writes video/Group_34_Video.mp4 (about 20 min)
 ```
 
+`scripts/demo_run.sh` is a paced end-to-end run meant to be screen-recorded: with the authorized snapshot it builds the labelled panels, reruns the candidate through validation and evaluation net of costs, and reconciles the result with the shipped ledgers day by day (`scripts/show_summary.py`); `bash scripts/demo_run.sh aggregates` runs the data-free part. `docs/RECORDING_GUIDE.md` explains how to record it, and `build_video.py --redo 16,17 --clip-after 15=clips/run.mp4` splices the recording into the video while reusing every unchanged segment.
+
 The narration text is in each slide's `<aside class="notes">`; `docs/VIDEO_SCRIPT.md` has the same content as a speaker script for recording a human voice-over.
 
 ## Rebuild report figures without original data
